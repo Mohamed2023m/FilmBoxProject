@@ -1,4 +1,17 @@
-bin/ 
-obj/ 
-.vs/ 
-*.user 
+# Visual Studio cache and temporary files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build outputs
+bin/
+obj/
+
+# NuGet packages
+*.nupkg
+packages/
+
+# Local environment files
+appsettings.Development.json
