@@ -10,4 +10,15 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="BusinessLogic\" />
+    <Folder Include="Controllers\" />
+    <Folder Include="DataAccess\" />
+    <Folder Include="DTOs\GetDTOs\" />
+    <Folder Include="DTOs\PostDTOs\" />
+    <Folder Include="Models\" />
+    <Folder Include="Uploads\MovieImages\" />
+    <Folder Include="Uploads\SeriesImages\" />
+  </ItemGroup>
+
 </Project>
