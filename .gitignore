@@ -9,19 +9,33 @@
 bin/
 obj/
 out/
+[Bb]in/
+[Oo]bj/
 
 # NuGet packages
 *.nupkg
 packages/
 .nuget/
+NuGet.exe
 
 # Local environment files
 appsettings.Development.json
 .env
+*.local.json
 
 # IDE settings
 *.DotSettings.user
+*.rsuser
+*.vscode/
 
 # OS-specific
 Thumbs.db
 .DS_Store
+desktop.ini
+
+# ============ FILMBOX SPECIFIC ============
+
+# Uploaded images and media files
+FilmBox.Api/Uploads/
+FilmBox.Api/MovieImages/
+FilmBox.Api/SeriesImages/
