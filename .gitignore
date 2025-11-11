@@ -8,10 +8,20 @@
 # Build outputs
 bin/
 obj/
+out/
 
 # NuGet packages
 *.nupkg
 packages/
+.nuget/
 
 # Local environment files
 appsettings.Development.json
+.env
+
+# IDE settings
+*.DotSettings.user
+
+# OS-specific
+Thumbs.db
+.DS_Store
