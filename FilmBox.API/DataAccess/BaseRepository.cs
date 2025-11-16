@@ -63,7 +63,7 @@ namespace FilmBox.Api.BusinessLogic
             }
 
 
-             throw new NotImplementedException();
+      
         } 
     }
 }
