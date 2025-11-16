@@ -23,8 +23,7 @@ namespace FilmBox.Api.BusinessLogic
 
         /*
         Grunden til jeg har udkommenteret dette kode er fordi, du åbner en connection, men den lukker aldrig
-        Dapper håndtere allerede åbning og lukning af connection og hvis man også
-        bruger using keyword smider den resourcen
+        Dapper håndtere allerede åbning og using keyword håndtere lukning af databasen
 
         */
         protected readonly string _connectionString;
