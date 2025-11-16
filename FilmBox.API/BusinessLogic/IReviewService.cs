@@ -5,8 +5,8 @@ namespace FilmBox.Api.BusinessLogic
 {
     public interface IReviewService
     {
-        Task<int> CreateReviewAsync(int? userId, ReviewCreateDto dto);
+        Task<bool> CreateReviewAsync(int? userId, ReviewCreateDto dto);
 
-        Task<IEnumerable<ReviewDto>> GetReviewsForMediaAsync(int mediaId);
+        //Task<IEnumerable<ReviewDto>> GetReviewsForMediaAsync(int mediaId);
     }
 }

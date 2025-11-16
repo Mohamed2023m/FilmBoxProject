@@ -20,17 +20,23 @@ namespace FilmBox.Api.Controllers
 
         // POST api/reviews
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] ReviewCreateDto dto)
+        public async Task<IActionResult> Create([FromBody] ReviewCreateDto dto, [FromQuery] int userId)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            int? userId = null;
- 
+            //int? userId = null;
+            /*
+             * Du siger her at userId gerne må være null, med andre ord siger du at man ikke behøver være en bruger for at kunne lave en review
+             */
+
+            if (userId <= 0) return BadRequest(new { error = "UserId must be provided" });
+
+
             try
             {
-                var newId = await _service.CreateReviewAsync(userId, dto);
-               
-                return CreatedAtAction(nameof(GetByMedia), new { mediaId = dto.MediaId }, new { id = newId });
+                var success = await _service.CreateReviewAsync(userId, dto);
+
+                return Ok(success);
             }
             catch (ArgumentException ex)
             {
@@ -48,19 +54,19 @@ namespace FilmBox.Api.Controllers
             }
         }
 
-        // GET api/reviews/media/{mediaId}
-        [HttpGet("media/{mediaId}")]
-        public async Task<IActionResult> GetByMedia(int mediaId)
-        {
-            try
-            {
-                var list = await _service.GetReviewsForMediaAsync(mediaId);
-                return Ok(list);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { error = "An unexpected error occurred.", detail = ex.Message });
-            }
-        }
+        //// GET api/reviews/media/{mediaId}
+        //[HttpGet("media/{mediaId}")]
+        //public async Task<IActionResult> GetByMedia(int mediaId)
+        //{
+        //    try
+        //    {
+        //        var list = await _service.GetReviewsForMediaAsync(mediaId);
+        //        return Ok(list);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, new { error = "An unexpected error occurred.", detail = ex.Message });
+        //    }
+        //}
     }
 }

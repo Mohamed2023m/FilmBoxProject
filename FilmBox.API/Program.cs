@@ -11,12 +11,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IDbConnection>(sp =>
-{
-    var config = sp.GetRequiredService<IConfiguration>();
-    var connectionString = config.GetConnectionString("DefaultConnection");
-    return new SqlConnection(connectionString);
-});
 
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
