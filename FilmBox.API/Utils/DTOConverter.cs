@@ -20,9 +20,11 @@ namespace FilmBox.Api.Utils
                    UserId = r.UserId
                };
 
-        public static IEnumerable<ReviewDto> ToDtos(this IEnumerable<Review> reviews)
-        {
-            foreach (var r in reviews) yield return r.ToDto();
-        }
+        //public static IEnumerable<ReviewDto> ToDtos(this IEnumerable<Review> reviews)
+        //{
+        //    foreach (var r in reviews) yield return r.ToDto();
+        //}
+
+        
     }
 }
