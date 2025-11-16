@@ -1,7 +1,7 @@
 ﻿using FilmBox.Api.Models;
-using System.Collections.Generic;   
+using System.Collections.Generic;
 
-namespace FilmBox.Api.BusinessLogic
+namespace FilmBox.API.DataAccess.Interfaces
 {
     public interface IReviewRepository
     {

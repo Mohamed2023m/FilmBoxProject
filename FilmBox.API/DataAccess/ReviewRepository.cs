@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using FilmBox.Api.Models;
+using FilmBox.API.DataAccess.Interfaces;
 using System.Data;
 
 namespace FilmBox.Api.BusinessLogic

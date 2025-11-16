@@ -1,7 +1,7 @@
 ﻿using FilmBox.Api.DTOs.GetDTOs;
 using FilmBox.Api.DTOs.PostDTOs;
 
-namespace FilmBox.Api.BusinessLogic
+namespace FilmBox.API.BusinessLogic.Interfaces
 {
     public interface IReviewService
     {

@@ -1,5 +1,7 @@
 using System.Data;
 using FilmBox.Api.BusinessLogic;
+using FilmBox.API.BusinessLogic.Interfaces;
+using FilmBox.API.DataAccess.Interfaces;
 using Microsoft.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);

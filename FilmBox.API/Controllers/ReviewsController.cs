@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using FilmBox.Api.BusinessLogic;
 using FilmBox.Api.DTOs.PostDTOs;
 using FilmBox.Api.DTOs.GetDTOs;
 using System;
 using System.Threading.Tasks;
+using FilmBox.API.BusinessLogic.Interfaces;
 
 namespace FilmBox.Api.Controllers
 {
