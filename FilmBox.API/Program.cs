@@ -1,15 +1,58 @@
+using FilmBox.Api.Authentication;
+using FilmBox.Api.BusinessLogic;
+using FilmBox.Api.DataAccess;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Cryptography;
+using System.Text;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
+// Add controllers
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Read connection string
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+// DATA ACCESS
+builder.Services.AddSingleton<IUserAccess>(new UserAccess(connectionString));
+
+// BUSINESS LOGIC
+builder.Services.AddScoped<UserLogic>();
+
+// JWT Token Generator
+builder.Services.AddSingleton<JwtTokenGenerator>();
+
+// Add JWT Authentication
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        var privateKeyPath = builder.Configuration["Jwt:PrivateKeyPath"];
+        var privateKeyXml = File.ReadAllText(privateKeyPath);
+
+        var rsa = RSA.Create();
+        rsa.FromXmlString(privateKeyXml); // contains public key inside
+
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new RsaSecurityKey(rsa)
+        };
+    });
+
+builder.Services.AddAuthorization();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Swagger
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -18,6 +61,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// ADD AUTHENTICATION BEFORE AUTHORIZATION
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
