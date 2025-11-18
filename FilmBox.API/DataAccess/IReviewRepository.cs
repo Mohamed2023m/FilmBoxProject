@@ -3,11 +3,10 @@ using System.Collections.Generic;
 
 namespace FilmBox.Api.BusinessLogic
 {
+    // Defines all database operations related to Reviews
     public interface IReviewRepository
     {
+        // Inserts a new review into the database
         Task<bool> InsertAsync(Review review);
-        //Task<IEnumerable<Review>> GetByMediaIdAsync(int mediaId);
-        //Task<bool> MediaExistsAsync(int mediaId);
-
     }
 }

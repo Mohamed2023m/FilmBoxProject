@@ -4,44 +4,22 @@ using Dapper;
 
 namespace FilmBox.Api.BusinessLogic
 {
+    // This class provides the shared database logic
     public abstract class BaseRepository
     {
-        //protected readonly IDbConnection _db;
-
-        //protected BaseRepository(IDbConnection db)
-        //{
-        //    _db = db;
-        //}
-
-        //protected void EnsureOpen()
-        //{
-        //    if (_db.State != ConnectionState.Open)
-        //        _db.Open();
-        //}
-
-
-
-        /*
-        Grunden til jeg har udkommenteret dette kode er fordi, du åbner en connection, men den lukker aldrig
-        Dapper håndtere allerede åbning og using keyword håndtere lukning af databasen
-
-        */
         protected readonly string _connectionString;
 
         protected BaseRepository(string connectionString)
         {
             _connectionString = connectionString;
         }
+        // Creates a new SQL connection on each request
 
         public IDbConnection CreateConnection()
         {
             return new SqlConnection(_connectionString);
         }
 
-
-        /*
-        Det var mening at du skulle lave wrapper metoder som passer til de forskellige operationer
-        */
         protected async Task<bool> TryExecuteAsync<T>(string sql, T parameters)
         {
 
@@ -60,9 +38,6 @@ namespace FilmBox.Api.BusinessLogic
                 return false;
 
             }
-
-
-      
         } 
     }
 }

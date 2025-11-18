@@ -7,11 +7,12 @@ using System.Data;
 
 namespace FilmBox.Api.BusinessLogic
 {
+    // Handles validation, mapping, and uses the repository for database access
     public class ReviewService : IReviewService
     {
         private readonly IReviewRepository _repo;
-     
 
+        // Repository is injected through constructor
         public ReviewService(IReviewRepository repo)
         {
             _repo = repo;
@@ -20,11 +21,11 @@ namespace FilmBox.Api.BusinessLogic
 
         public async Task<bool> CreateReviewAsync(int? userId, ReviewCreateDto dto)
         {
+            // Validate rating range
             if (dto.Rating < 1 || dto.Rating > 5)
                 throw new System.ArgumentException("Rating must be between 1 and 5.");
 
- 
-
+            // Build Review domain model from DTO.
             var review = new Review
             {
                 Rating = dto.Rating,
@@ -33,15 +34,10 @@ namespace FilmBox.Api.BusinessLogic
                 UserId = userId
             };
 
+            // Insert into database through repository.
             var success = await _repo.InsertAsync(review);
             return success;
         }
-
-        //public async Task<IEnumerable<ReviewDto>> GetReviewsForMediaAsync(int mediaId)
-        //{
-        //    var reviews = await _repo.GetByMediaIdAsync(mediaId);
-        //    return reviews.ToDtos(); 
-        //}
 
     }
 }
