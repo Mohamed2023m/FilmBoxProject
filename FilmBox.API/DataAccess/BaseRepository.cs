@@ -27,8 +27,8 @@ namespace FilmBox.Api.BusinessLogic
             try
             {
                 using var conn = CreateConnection();
-                
-                var rowsAffected =  await conn.ExecuteAsync(sql, parameters);
+
+                var rowsAffected = await conn.ExecuteAsync(sql, parameters);
 
                 return rowsAffected > 0;
 
@@ -38,6 +38,14 @@ namespace FilmBox.Api.BusinessLogic
                 return false;
 
             }
-        } 
+        }
+        // Vi opretter et Review og her er det samrtest at have et review Id med tilbage   
+        // TryExecuteAsync = bruges til UPDATE/DELETE (kun "success / ikke success").
+        // QuerySingleAsync<T> = bruges til INSERT + returnering af nyt ID.
+        protected async Task<T> QuerySingleAsync<T>(string sql, object parameters)
+        {
+            using var conn = CreateConnection();
+            return await conn.QuerySingleAsync<T>(sql, parameters);
+        }
     }
 }

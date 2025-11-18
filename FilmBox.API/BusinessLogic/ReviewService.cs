@@ -19,7 +19,7 @@ namespace FilmBox.Api.BusinessLogic
     
         }
 
-        public async Task<bool> CreateReviewAsync(int? userId, ReviewCreateDto dto)
+        public async Task<int> CreateReviewAsync(int? userId, ReviewCreateDto dto)
         {
             // Validate rating range
             if (dto.Rating < 1 || dto.Rating > 5)
@@ -35,8 +35,8 @@ namespace FilmBox.Api.BusinessLogic
             };
 
             // Insert into database through repository.
-            var success = await _repo.InsertAsync(review);
-            return success;
+            var id = await _repo.InsertAsync(review);
+            return id;
         }
 
     }

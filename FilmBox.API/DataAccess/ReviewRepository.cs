@@ -20,10 +20,10 @@ namespace FilmBox.Api.BusinessLogic
         SELECT CAST(SCOPE_IDENTITY() AS int);";
 
         // Executes the SQL insert using BaseRepository helper.
-        public async Task<bool> InsertAsync(Review review)
+        public async Task<int> InsertAsync(Review review)
         {
-            return  await TryExecuteAsync(InsertReviewSql, review); 
-
+            var id = await QuerySingleAsync<int>(InsertReviewSql, review);
+            return id;
         }
     }
 }

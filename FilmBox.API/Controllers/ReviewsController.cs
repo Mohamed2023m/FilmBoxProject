@@ -34,9 +34,9 @@ namespace FilmBox.Api.Controllers
             try
             {
                 // Attempt to create the review using the service layer
-                var success = await _service.CreateReviewAsync(userId, dto);
+                var id = await _service.CreateReviewAsync(userId, dto);
 
-                return Ok(success);
+                return Ok(id);
             }
             catch (ArgumentException ex)
             {

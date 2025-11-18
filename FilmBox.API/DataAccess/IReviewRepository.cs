@@ -7,6 +7,6 @@ namespace FilmBox.Api.BusinessLogic
     public interface IReviewRepository
     {
         // Inserts a new review into the database
-        Task<bool> InsertAsync(Review review);
+        Task<int> InsertAsync(Review review);
     }
 }
