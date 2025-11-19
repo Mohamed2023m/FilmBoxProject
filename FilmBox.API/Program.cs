@@ -1,3 +1,7 @@
+using System.Data;
+using FilmBox.Api.BusinessLogic;
+using Microsoft.Data.SqlClient;
+
 using FilmBox.Api.Authentication;
 using FilmBox.Api.BusinessLogic;
 using FilmBox.Api.DataAccess;
@@ -12,6 +16,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+builder.Services.AddScoped<IReviewDAO, ReviewDAO>();
+builder.Services.AddScoped<IReviewLogic, ReviewLogic>();
 
 // Read connection string
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
