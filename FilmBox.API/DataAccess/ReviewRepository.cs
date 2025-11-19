@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using FilmBox.Api.DataAccess;
 using FilmBox.Api.Models;
 using FilmBox.API.DataAccess.Interfaces;
 using System.Data;
@@ -7,16 +8,19 @@ namespace FilmBox.Api.BusinessLogic
 {
     public class ReviewRepository : BaseRepository, IReviewRepository
     {
-        public ReviewRepository(IConfiguration config) : base(config.GetConnectionString("DefaultConnection")
-        ?? throw new ArgumentNullException("DefaultConnection is missing"))
-        {
-        }
+       
 
         private static readonly string InsertReviewSql = @"
         INSERT INTO Review (Rating, Description, MediaId, UserId)
         VALUES (@Rating, @Description, @MediaId, @UserId);
         SELECT CAST(SCOPE_IDENTITY() AS int);";
 
+
+
+        public ReviewRepository(IConfiguration config) : base(config.GetConnectionString("DefaultConnection")
+       ?? throw new ArgumentNullException("DefaultConnection is missing"))
+        {
+        }
         //private static readonly string SelectReviewsByMediaSql = @"
         //SELECT ReviewId, CreatedAt, Rating, Description, MediaId, UserId
         //FROM Review

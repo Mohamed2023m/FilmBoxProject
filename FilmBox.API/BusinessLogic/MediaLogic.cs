@@ -1,6 +1,80 @@
-﻿namespace FilmBox.API.BusinessLogic
+﻿using FilmBox.Api.Models;
+using FilmBox.API.BusinessLogic.Interfaces;
+using FilmBox.API.DataAccess.Interfaces;
+using FilmBox.API.DTOs.GetDTOs;
+
+namespace FilmBox.API.BusinessLogic
 {
-    public class MediaLogic
+    public class MediaLogic : IMediaLogic
     {
+        private IMediaAccess _mediaAccess;
+
+        public MediaLogic(IMediaAccess mediaAccess)
+        {
+            _mediaAccess = mediaAccess;
+        }
+
+
+        public async Task<MediaDto> GetMediaById(int Id)
+        {
+
+
+            var Media = await _mediaAccess.FetchMediaAsync(Id);
+
+
+            if (Media == null)
+            {
+                throw new InvalidOperationException("Media not found");
+
+            }
+
+
+            return new MediaDto
+            {
+            Title = Media.Title,
+
+            Description = Media.Description,
+
+            Genre = Media.Genre,
+
+            ImageUrl = Media.ImageUrl,
+
+            PublishDate = Media.PublishDate,
+            };
+
+
+        }
+
+
+        public async Task<IEnumerable<MediaDto>> GetAllMedia()
+        {
+
+
+            var mediaList = await _mediaAccess.FetchAllMediaAsync();
+
+
+            var mediaDtoList = new List<MediaDto>();
+
+            foreach (var media in mediaList) {
+
+                var dto = new MediaDto
+                {
+
+                    Title = media.Title,
+
+                    ImageUrl = media.ImageUrl,
+                };
+
+                mediaDtoList.Add(dto);
+
+            }
+
+            return mediaDtoList;
+
+        }
+
+
+        
+
     }
 }

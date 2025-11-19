@@ -20,4 +20,8 @@
 		<Folder Include="Uploads\SeriesImages\" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Include="DataAccess\Exceptions\DataAccessException.cs" />
+	</ItemGroup>
+
 </Project>

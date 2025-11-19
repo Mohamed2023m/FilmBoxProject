@@ -1,6 +1,12 @@
-﻿namespace FilmBox.API.BusinessLogic.Interfaces
+﻿using FilmBox.API.DTOs.GetDTOs;
+
+namespace FilmBox.API.BusinessLogic.Interfaces
 {
-    public class IMediaLogic
+    public interface IMediaLogic
     {
+
+        public Task<MediaDto> GetMediaById(int Id);
+
+        public Task<IEnumerable<MediaDto>> GetAllMedia();
     }
 }

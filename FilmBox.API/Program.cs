@@ -1,6 +1,8 @@
 using System.Data;
 using FilmBox.Api.BusinessLogic;
+using FilmBox.API.BusinessLogic;
 using FilmBox.API.BusinessLogic.Interfaces;
+using FilmBox.API.DataAccess;
 using FilmBox.API.DataAccess.Interfaces;
 using Microsoft.Data.SqlClient;
 
@@ -16,6 +18,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
+builder.Services.AddScoped<IMediaAccess, MediaAccess>();
+builder.Services.AddScoped<IMediaLogic, MediaLogic>();
 
 var app = builder.Build();
 

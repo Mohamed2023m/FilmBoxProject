@@ -1,8 +1,10 @@
 ﻿using Microsoft.Data.SqlClient;
 using System.Data;
 using Dapper;
+using FilmBox.Api.Models;
+using FilmBox.Api.DataAccess.Exceptions;
 
-namespace FilmBox.Api.BusinessLogic
+namespace FilmBox.Api.DataAccess    
 {
     public abstract class BaseRepository
     {
@@ -45,25 +47,62 @@ namespace FilmBox.Api.BusinessLogic
         */
         protected async Task<bool> TryExecuteAsync<T>(string sql, T parameters)
         {
-
-
             try
             {
                 using var conn = CreateConnection();
-                
-                var rowsAffected =  await conn.ExecuteAsync(sql, parameters);
+
+                var rowsAffected = await conn.ExecuteAsync(sql, parameters);
 
                 return rowsAffected > 0;
-
             }
             catch
             {
                 return false;
-
             }
 
+        }
+        protected async Task<TResult?> TryQuerySingleOrDefaultAsync<TParams, TResult>(string sql, TParams parameters)
 
-     
-        } 
+        {
+
+            try
+            {
+                using var conn = CreateConnection();
+                Console.WriteLine("Executing SQL: " + sql);
+
+                var result = await conn.QuerySingleOrDefaultAsync<TResult>(sql, parameters);
+
+                Console.WriteLine("Query executed successfully, result: " + (result == null ? "null" : result.ToString()));
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception in repository: " + ex);
+                throw;
+            }
+
+        }
+        protected async Task<IEnumerable<TResult>> TryQueryAsync<TParams, TResult>(
+     string sql,
+     TParams parameters)
+        {
+            try
+            {
+                using var conn = CreateConnection();
+                var result = await conn.QueryAsync<TResult>(sql, parameters);
+                return result.ToList();
+            }
+            catch (SqlException ex)
+            {
+                throw new DataAccessException("Database query failed.", ex);
+            }
+        }
+
+
+
+
     }
+
+
 }
