@@ -8,12 +8,12 @@ using System.Data;
 namespace FilmBox.Api.BusinessLogic
 {
     // Handles validation, mapping, and uses the repository for database access
-    public class ReviewService : IReviewService
+    public class ReviewLogic : IReviewLogic
     {
-        private readonly IReviewRepository _repo;
+        private readonly IReviewDAO _repo;
 
         // Repository is injected through constructor
-        public ReviewService(IReviewRepository repo)
+        public ReviewLogic(IReviewDAO repo)
         {
             _repo = repo;
     
@@ -38,6 +38,12 @@ namespace FilmBox.Api.BusinessLogic
             var id = await _repo.InsertAsync(review);
             return id;
         }
+        public async Task<IEnumerable<ReviewDto>> GetReviewsByUserAsync(int userId)
+        {
+            if (userId <= 0) throw new System.ArgumentException("userId must be > 0");
 
+            var reviews = await _repo.GetByUserIdAsync(userId);
+            return reviews.ToDtos(); 
+        }
     }
 }

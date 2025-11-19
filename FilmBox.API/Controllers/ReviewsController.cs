@@ -11,9 +11,9 @@ namespace FilmBox.Api.Controllers
     [Route("api/[controller]")]
     public class ReviewsController : ControllerBase
     {
-        private readonly IReviewService _service;
+        private readonly IReviewLogic _service;
 
-        public ReviewsController(IReviewService service)
+        public ReviewsController(IReviewLogic service)
         {
             _service = service ?? throw new ArgumentNullException(nameof(service));
         }
@@ -54,5 +54,35 @@ namespace FilmBox.Api.Controllers
                 return StatusCode(500, new { error = "An unexpected error occurred.", detail = ex.Message });
             }
         }
+
+        // GET api/reviews/user/{userId}
+        [HttpGet("user/{userId}")]
+        public async Task<IActionResult> GetByUser(int userId)
+        {
+            if (userId <= 0) return BadRequest(new { error = "userId must be > 0" });
+
+            try
+            {
+                var list = await _service.GetReviewsByUserAsync(userId);
+                return Ok(list); // 200 OK + JSON array
+            }
+            catch (ArgumentException ex)
+            {
+                // Used for validation errors
+                return BadRequest(new { error = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                // Used when a related entity is missing
+                return NotFound(new { error = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                // Catch - all for unexpected exceptions
+
+                return StatusCode(500, new { error = "An unexpected error occurred.", detail = ex.Message });
+            }
+        }
     }
 }
+

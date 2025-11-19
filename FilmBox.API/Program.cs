@@ -12,8 +12,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
-builder.Services.AddScoped<IReviewService, ReviewService>();
+builder.Services.AddScoped<IReviewDAO, ReviewDAO>();
+builder.Services.AddScoped<IReviewLogic, ReviewLogic>();
 
 var app = builder.Build();
 

@@ -22,6 +22,18 @@ namespace FilmBox.Api.Utils
                    Description = r.Description,
                    MediaId = r.MediaId,
                    UserId = r.UserId
-               };  
+               };
+
+        public static IEnumerable<ReviewDto> ToDtos(this IEnumerable<Review> reviews)
+        {
+            var list = new List<ReviewDto>();
+
+            foreach (var review in reviews)
+            {
+                list.Add(review.ToDto());
+            }
+
+            return list;
+        }
     }
 }

@@ -5,10 +5,10 @@ using System.Data;
 namespace FilmBox.Api.BusinessLogic
 {
     // Handles all SQL operations related to the Review entity
-    public class ReviewRepository : BaseRepository, IReviewRepository
+    public class ReviewDAO : BaseDAO, IReviewDAO
     {
         // Gets connection string from appsettings.json via IConfiguration
-        public ReviewRepository(IConfiguration config) : base(config.GetConnectionString("DefaultConnection")
+        public ReviewDAO(IConfiguration config) : base(config.GetConnectionString("DefaultConnection")
         ?? throw new ArgumentNullException("DefaultConnection is missing"))
         {
         }
@@ -19,11 +19,22 @@ namespace FilmBox.Api.BusinessLogic
         VALUES (@Rating, @Description, @MediaId, @UserId);
         SELECT CAST(SCOPE_IDENTITY() AS int);";
 
+        private static readonly string SelectReviewsByUserSql = @"
+        SELECT ReviewId, CreatedAt, Rating, Description, MediaId, UserId
+        FROM Review
+        WHERE UserId = @UserId
+        ORDER BY CreatedAt DESC;";
+
         // Executes the SQL insert using BaseRepository helper.
         public async Task<int> InsertAsync(Review review)
         {
             var id = await QuerySingleAsync<int>(InsertReviewSql, review);
             return id;
+        }
+
+        public async Task<IEnumerable<Review>> GetByUserIdAsync(int userId)
+        {
+            return await QueryListAsync<Review>(SelectReviewsByUserSql, new { UserId = userId });
         }
     }
 }
