@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace FilmBox.Api.DataAccess
 
 {
-    public interface IUserAccess
+    public interface IUserDAO
     {
    
         Task<User> GetEmailAsync(string email);

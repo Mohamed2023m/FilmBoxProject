@@ -4,9 +4,9 @@ using FilmBox.Api.Models;
 
 namespace FilmBox.Api.DataAccess
 {
-    public class UserAccess : BaseDAO, IUserAccess
+    public class UserDAO : BaseDAO, IUserDAO
     {
-        public UserAccess(string connectionString)
+        public UserDAO(string connectionString)
             : base(connectionString)
         {
         }

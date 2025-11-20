@@ -7,7 +7,7 @@ namespace FilmBox.Api.BusinessLogic
     public interface IReviewLogic
     {
         // Creates a new review for a specific user.
-        Task<int> CreateReviewAsync(int? userId, ReviewCreateDto dto);
+        Task<int> CreateReviewAsync(int userId, ReviewCreateDto dto);
         Task<IEnumerable<ReviewDto>> GetReviewsByUserAsync(int userId);
 
 

@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using FilmBox.Api.DataAccess;
 using FilmBox.Api.Models;
 using System.Data;
 
@@ -6,10 +7,10 @@ namespace FilmBox.Api.BusinessLogic
 {
     // Handles all SQL operations related to the Review entity
     public class ReviewDAO : BaseDAO, IReviewDAO
+
     {
-        // Gets connection string from appsettings.json via IConfiguration
-        public ReviewDAO(IConfiguration config) : base(config.GetConnectionString("DefaultConnection")
-        ?? throw new ArgumentNullException("DefaultConnection is missing"))
+        public ReviewDAO(string connectionString)
+    : base(connectionString)
         {
         }
 
@@ -28,13 +29,20 @@ namespace FilmBox.Api.BusinessLogic
         // Executes the SQL insert using BaseRepository helper.
         public async Task<int> InsertAsync(Review review)
         {
-            var id = await QuerySingleAsync<int>(InsertReviewSql, review);
+
+           using IDbConnection connection = CreateConnection();
+            var id = await connection.QuerySingleAsync<int>(InsertReviewSql, review);
             return id;
+
+
+        
         }
 
         public async Task<IEnumerable<Review>> GetByUserIdAsync(int userId)
         {
-            return await QueryListAsync<Review>(SelectReviewsByUserSql, new { UserId = userId });
+            using IDbConnection connection = CreateConnection();
+
+            return await connection.QueryAsync<Review>(SelectReviewsByUserSql, new { UserId = userId });
         }
     }
 }

@@ -33,7 +33,7 @@ namespace FilmBox.Api.Authentication
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                 new Claim("userId", user.UserId.ToString()),
-                new Claim(ClaimTypes.Role, user.Role)
+                new Claim(ClaimTypes.Role, user.Role ?? "User")
             };
 
             var token = new JwtSecurityToken(

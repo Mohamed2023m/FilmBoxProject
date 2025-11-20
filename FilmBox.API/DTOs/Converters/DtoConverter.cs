@@ -1,4 +1,6 @@
 ﻿using FilmBox.Api.DTOs;
+using FilmBox.Api.DTOs.GetDTOs;
+using FilmBox.Api.DTOs.PostDTOs;
 using FilmBox.Api.Models;
 using System.Collections.Generic;
 
@@ -41,6 +43,32 @@ namespace WebApi.DTOs.Converters
         }
         #endregion
 
+
+        #region Review conversion methods
+        public static ReviewDto ToDto(this Review reviewToConvert)
+        {
+            var reviewDto = new ReviewDto();
+            reviewToConvert.CopyPropertiesTo(reviewDto);
+            return reviewDto;
+        }
+
+        public static Review FromCreateDto(this ReviewCreateDto reviewDtoToConvert)
+        {
+            var review = new Review();
+            reviewDtoToConvert.CopyPropertiesTo(review);
+            return review;
+        }
+
+        public static IEnumerable<ReviewDto> ToDtos(this IEnumerable<Review> reviewsToConvert)
+        {
+            foreach (var review in reviewsToConvert)
+            {
+                yield return review.ToDto();
+            }
+        }
+
+
+        #endregion
 
     }
 }

@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using FilmBox.Api.BusinessLogic;
-using FilmBox.Api.DTOs.PostDTOs;
+﻿using FilmBox.Api.BusinessLogic;
 using FilmBox.Api.DTOs.GetDTOs;
+using FilmBox.Api.DTOs.PostDTOs;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace FilmBox.Api.Controllers
@@ -11,30 +14,35 @@ namespace FilmBox.Api.Controllers
     [Route("api/[controller]")]
     public class ReviewsController : ControllerBase
     {
-        private readonly IReviewLogic _service;
+        private readonly IReviewLogic _logic;
 
-        public ReviewsController(IReviewLogic service)
+        public ReviewsController(IReviewLogic logic)
         {
-            _service = service ?? throw new ArgumentNullException(nameof(service));
+            _logic = logic;
         }
 
         // POST api/reviews
         // Creates a new review
+        
+        [Authorize(Roles = "User")]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] ReviewCreateDto dto, [FromQuery] int userId)
+        public async Task<IActionResult> Create([FromBody] ReviewCreateDto dto)
         {
             // Validate model in ReviewCreateDto
 
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            // Simulated userId (in a real app, this would come from authentication context, waiting for login user)
-            if (userId <= 0) return BadRequest(new { error = "UserId must be provided" });
+            // Extract userId from JWT token
+            var claim = User.FindFirst("userId") ?? User.FindFirst(ClaimTypes.NameIdentifier);
+            if (claim == null || !int.TryParse(claim.Value, out var userId))
+                return Unauthorized(new { error = "Missing userId in token" });
 
+            //int userId = int.Parse(userID_JWT.Value);
 
             try
             {
                 // Attempt to create the review using the service layer
-                var id = await _service.CreateReviewAsync(userId, dto);
+                var id = await _logic.CreateReviewAsync(userId, dto);
 
                 return Ok(id);
             }
@@ -63,7 +71,7 @@ namespace FilmBox.Api.Controllers
 
             try
             {
-                var list = await _service.GetReviewsByUserAsync(userId);
+                var list = await _logic.GetReviewsByUserAsync(userId);
                 return Ok(list); // 200 OK + JSON array
             }
             catch (ArgumentException ex)

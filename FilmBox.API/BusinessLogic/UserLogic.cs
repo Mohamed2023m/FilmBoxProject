@@ -7,20 +7,20 @@ using FilmBox.Api.DTOs.LoginDTO_s;
 
 namespace FilmBox.Api.BusinessLogic
 {
-    public class UserLogic:ControllerBase
+    public class UserLogic: IUserLogic
     {
-        private readonly IUserAccess _userAccess;
+        private readonly IUserDAO _userDAO;
         private readonly JwtTokenGenerator _jwt;
 
-        public UserLogic(IUserAccess userAccess, JwtTokenGenerator jwt)
+        public UserLogic(IUserDAO userDAO, JwtTokenGenerator jwt)
         {
-            _userAccess = userAccess;
+            _userDAO = userDAO;
             _jwt = jwt;
         }
 
-        public async Task<AuthResult> LoginAsync(LoginRequest request)
+        public async Task<AuthResult>LoginAsync(LoginRequest request)
         {
-            var user = await _userAccess.GetEmailAsync(request.Email);
+            var user = await _userDAO.GetEmailAsync(request.Email);
 
             if (user == null)
             {
@@ -55,5 +55,7 @@ namespace FilmBox.Api.BusinessLogic
                 }
             };
         }
+
+
     }
 }

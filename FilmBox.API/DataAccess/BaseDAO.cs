@@ -1,5 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
-using System.Data;
+﻿using System.Data;
 using System.Data.SqlClient;
 
 namespace FilmBox.Api.DataAccess
