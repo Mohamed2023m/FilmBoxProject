@@ -2,7 +2,6 @@
 using FilmBox.Api.DTOs.GetDTOs;
 using FilmBox.Api.DTOs.PostDTOs;
 using FilmBox.Api.Models;
-using FilmBox.Api.Utils;
 using FilmBox.API.BusinessLogic.Interfaces;
 using FilmBox.API.DataAccess.Interfaces;
 using System.Data;
