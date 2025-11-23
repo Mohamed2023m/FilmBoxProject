@@ -1,21 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace FilmBox.Api.Models
+﻿namespace FilmBox.Api.Models
 {
     public class User
     {
         public int UserId { get; set; }
-        [Required]
-        [MaxLength(100)]
-        public string Name { get; set; } = null!;
 
-        [MaxLength(255)]
-        public string? Email { get; set; } = null!;
-        public bool IsAdmin { get; set; } = false;
-        public byte[]? PasswordSalt { get; set; }
-        public byte[]? PasswordHash { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string PasswordHash { get; set; } = string.Empty;
+        public string Role { get; set; } = "User";
+        
 
-        // Navigation 
-        public ICollection<Review> Reviews { get; set; } = new List<Review>();
+
     }
 }

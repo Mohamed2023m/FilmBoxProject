@@ -39,4 +39,4 @@ desktop.ini
 FilmBox.Api/Uploads/
 FilmBox.Api/MovieImages/
 FilmBox.Api/SeriesImages/
-/FilmBox.Api/FilmBox.Api.csproj
+FilmBox.API/appsettings.json
