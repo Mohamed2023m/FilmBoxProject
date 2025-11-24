@@ -51,7 +51,7 @@ builder.Services.AddSingleton<IUserDAO>(new UserDAO(connectionString));
 builder.Services.AddSingleton<IReviewDAO>(new ReviewDAO(connectionString));
 
 // Incoming DAOs / Repositories
-builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+
 builder.Services.AddScoped<IMediaAccess, MediaAccess>();
 
 // BUSINESS LOGIC
@@ -59,7 +59,7 @@ builder.Services.AddScoped<UserLogic>();
 builder.Services.AddScoped<IReviewLogic, ReviewLogic>();
 
 // Incoming Business Logic / Services
-builder.Services.AddScoped<IReviewService, ReviewService>();
+
 builder.Services.AddScoped<IMediaLogic, MediaLogic>();
 
 // JWT Token Generator

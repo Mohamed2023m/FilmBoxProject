@@ -10,6 +10,6 @@ namespace FilmBox.Api.DTOs.PostDTOs
         public int Rating { get; set; }
 
         [MaxLength]
-        public string? Description { get; set; }
+        public string Description { get; set; }
     }
 }
