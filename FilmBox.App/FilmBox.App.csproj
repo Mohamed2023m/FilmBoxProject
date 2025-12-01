@@ -47,6 +47,7 @@
         <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="$(MauiVersion)" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.8" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     </ItemGroup>
 
 	<ItemGroup>
@@ -58,6 +59,10 @@
 		</MauiIcon>
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appicon_foreground.svg" />
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\FilmBox.Shared\FilmBox.Shared.csproj" />
 	</ItemGroup>
 
 </Project>

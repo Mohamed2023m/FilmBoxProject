@@ -1,5 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
+using FilmBox.App.Services;
+using FilmBox.App.Services.Interfaces;
+using FilmBox.App.ViewModel;
 
 
 
@@ -21,6 +24,9 @@ public static class MauiProgram
 
         builder.Services.AddHttpClient();
 
+        builder.Services.AddTransient<IMediaService, MediaService>();
+
+        builder.Services.AddTransient<MediaViewModel>();
 
 #if DEBUG
         builder.Services.AddBlazorWebViewDeveloperTools();

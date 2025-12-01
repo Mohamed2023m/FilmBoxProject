@@ -1,0 +1,30 @@
+﻿@page "/media"
+@using FilmBox.App.ViewModel
+
+@inject MediaViewModel VM
+
+<h3>Media List</h3>
+
+<button @onclick="Load">Load Media</button>
+
+<ul>
+    @foreach (var m in VM.Medias)
+    {
+        <li>@m.Title</li>
+    }
+</ul>
+
+@code {
+    // Load media when page initializes
+    protected override async Task OnInitializedAsync()
+    {
+        await VM.LoadAsync();
+    }
+
+    // Called when button is clicked
+    private async Task Load()
+    {
+        await VM.LoadAsync();
+        StateHasChanged(); // ensures UI updates
+    }
+}
