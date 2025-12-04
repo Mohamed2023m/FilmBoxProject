@@ -9,34 +9,50 @@ using System.Threading.Tasks;
 
 namespace FilmBox.App.ViewModel
 {
-    public class MediaViewModel
+    public class MediaViewModel 
     {
         private readonly IMediaService _mediaService;
-        public ObservableCollection<MediaDto> Medias { get; private set; }
+        public ObservableCollection<MediaDto> Series { get; private set; }
 
+        public ObservableCollection<MediaDto> Films { get; private set; }
 
+        
 
         public MediaViewModel(IMediaService mediaService)
         {
 
             _mediaService = mediaService;
 
-            Medias = new ObservableCollection<MediaDto>();
+            Series = new ObservableCollection<MediaDto>();
+
+            Films = new ObservableCollection<MediaDto>();
         }
 
 
         public async Task LoadAsync()
         {
-            var data = await _mediaService.GetAllMedia();
+            var seriesData = await _mediaService.GetAllSeries();
 
-            Medias.Clear();
+            var filmsData = await _mediaService.GetAllFilms();
 
-            foreach (var item in data)
+            Series.Clear();
+            Films.Clear();
+            foreach (var item in seriesData)
             {
 
-                Medias.Add(item);
+                Series.Add(item);
 
             }
+
+            foreach (var item in filmsData)
+            {
+
+                Films.Add(item);
+
+
+            }
+
+
 
         }
 

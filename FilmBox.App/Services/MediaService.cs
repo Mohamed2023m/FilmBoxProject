@@ -18,11 +18,11 @@ namespace FilmBox.App.Services
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<IEnumerable<MediaDto>> GetAllMedia()
+        public async Task<IEnumerable<MediaDto>> GetAllSeries()
         {
             var httpClient = _httpClientFactory.CreateClient();
 
-            var url = "http://localhost:5002/api/media/all-media";
+            var url = "http://localhost:5002/api/media/All-Series";
 
             var response = await httpClient.GetAsync(url);
 
@@ -39,6 +39,31 @@ namespace FilmBox.App.Services
             }
             return new List<MediaDto>();
         }
+
+
+        public async Task<IEnumerable<MediaDto>> GetAllFilms()
+        {
+            var httpClient = _httpClientFactory.CreateClient();
+
+            var url = "http://localhost:5002/api/media/All-Films";
+
+            var response = await httpClient.GetAsync(url);
+
+
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseData = await response.Content.ReadAsStringAsync();
+
+                var mediaList = JsonConvert.DeserializeObject<List<MediaDto>>(responseData);
+
+                return mediaList;
+
+            }
+            return new List<MediaDto>();
+        }
+
+
 
     }
 }

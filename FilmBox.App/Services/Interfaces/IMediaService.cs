@@ -9,7 +9,9 @@ namespace FilmBox.App.Services.Interfaces
 {
     public interface IMediaService
     {
-        public Task<IEnumerable<MediaDto>> GetAllMedia();
+        public Task<IEnumerable<MediaDto>> GetAllSeries();
+
+        public  Task<IEnumerable<MediaDto>> GetAllFilms();
 
     }
 }

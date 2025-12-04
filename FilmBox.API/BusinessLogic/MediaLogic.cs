@@ -46,11 +46,11 @@ namespace FilmBox.API.BusinessLogic
         }
 
 
-        public async Task<IEnumerable<MediaDto>> GetAllMedia()
+        public async Task<IEnumerable<MediaDto>> GetAllSeries()
         {
 
 
-            var mediaList = await _mediaAccess.FetchAllMediaAsync();
+            var mediaList = await _mediaAccess.FetchAllSeriesAsync();
 
 
             var mediaDtoList = new List<MediaDto>();
@@ -73,8 +73,33 @@ namespace FilmBox.API.BusinessLogic
 
         }
 
+        public async Task<IEnumerable<MediaDto>> GetAllFilms()
+        {
 
-        
+
+            var mediaList = await _mediaAccess.FetchAllFilmsAsync();
+
+
+            var mediaDtoList = new List<MediaDto>();
+
+            foreach (var media in mediaList)
+            {
+
+                var dto = new MediaDto
+                {
+
+                    Title = media.Title,
+
+                    ImageUrl = media.ImageUrl,
+                };
+
+                mediaDtoList.Add(dto);
+
+            }
+
+            return mediaDtoList;
+
+        }
 
     }
 }

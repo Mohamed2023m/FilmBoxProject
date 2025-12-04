@@ -7,6 +7,12 @@ namespace FilmBox.API.BusinessLogic.Interfaces
 
         public Task<MediaDto> GetMediaById(int Id);
 
-        public Task<IEnumerable<MediaDto>> GetAllMedia();
+        public Task<IEnumerable<MediaDto>> GetAllFilms();
+
+
+
+        public Task<IEnumerable<MediaDto>> GetAllSeries();
+
+
     }
 }
