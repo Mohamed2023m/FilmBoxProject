@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
+using FilmBox.App.Services;
+using FilmBox.App.ViewModels;
 
 
 
@@ -21,6 +23,12 @@ public static class MauiProgram
 
         builder.Services.AddHttpClient();
 
+        builder.Services.AddHttpClient<UserApiService>(client =>
+        {
+            client.BaseAddress = new Uri("https://localhost:7007/"); // your backend URL
+        });
+
+        builder.Services.AddScoped<LoginViewModel>();
 
 #if DEBUG
         builder.Services.AddBlazorWebViewDeveloperTools();
