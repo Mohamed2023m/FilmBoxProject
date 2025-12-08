@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
+using FilmBox.App.Services;
+using FilmBox.App.ViewModel;
 
 
 
@@ -19,7 +21,7 @@ public static class MauiProgram
 
 		builder.Services.AddMauiBlazorWebView();
 
-        builder.Services.AddHttpClient();
+        // builder.Services.AddHttpClient();
 
 
 #if DEBUG
@@ -27,6 +29,11 @@ public static class MauiProgram
 		builder.Logging.AddDebug();
 #endif
 
-		return builder.Build();
+        builder.Services.AddTransient<ReviewApiService>();
+        builder.Services.AddTransient<ReviewViewModel>();
+        builder.Services.AddTransient<StubMediaService>();
+        builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7070/") });
+ 
+        return builder.Build();
 	}
 }

@@ -1,0 +1,16 @@
+[
+  {
+    "Name": "App_API",
+    "Projects": [
+      {
+        "Path": "FilmBox.Api\\FilmBox.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "FilmBox.App\\FilmBox.App.csproj",
+        "Action": "Start",
+        "DebugTarget": "Windows Machine"
+      }
+    ]
+  }
+]

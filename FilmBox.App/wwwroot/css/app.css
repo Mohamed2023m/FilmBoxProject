@@ -70,6 +70,18 @@ h1:focus {
 .status-bar-safe-area {
     display: none;
 }
+.star {
+    font-size: 32px;
+    color: #cfcfcf;
+    cursor: pointer;
+    padding: 4px;
+    user-select: none;
+}
+
+.star.on {
+    color: gold;
+}
+
 
 @supports (-webkit-touch-callout: none) {
     .status-bar-safe-area {
@@ -85,4 +97,5 @@ h1:focus {
     .flex-column, .navbar-brand {
         padding-left: env(safe-area-inset-left);
     }
+
 }
