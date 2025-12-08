@@ -22,8 +22,9 @@ namespace FilmBox.App.ViewModels
         public LoginViewModel(UserApiService api, NavigationManager nav)
         {
 
-
-            _api = api; _nav = nav;
+            _api = api; 
+            
+            _nav = nav;
 
 
         }
@@ -37,14 +38,15 @@ namespace FilmBox.App.ViewModels
 
    
        [RelayCommand]
-        public async Task LoginAsync() {
-        var result = await _api.LoginAsync(email, password); 
+        public async Task LoginAsync()
+        {
+        var result = await _api.LoginAsync(Email, Password); 
 
         if (result != null && !string.IsNullOrEmpty(result.Token))
         { await SecureStorage.Default.SetAsync("jwt", result.Token);
             LoginMessage = "Login successful!";
 
-            _nav.NavigateTo("/home", true); }
+            _nav.NavigateTo("/", true); }
         else
         { LoginMessage = "Invalid email or password."; } 
     

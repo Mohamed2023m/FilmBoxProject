@@ -25,7 +25,7 @@ public static class MauiProgram
 
         builder.Services.AddHttpClient<UserApiService>(client =>
         {
-            client.BaseAddress = new Uri("https://localhost:7007/"); // your backend URL
+            client.BaseAddress = new Uri("https://localhost:7070"); 
         });
 
         builder.Services.AddScoped<LoginViewModel>();
