@@ -28,6 +28,8 @@ public static class MauiProgram
 
         builder.Services.AddTransient<MediaViewModel>();
 
+        builder.Services.AddTransient<MediaDetailViewModel>();
+
 #if DEBUG
         builder.Services.AddBlazorWebViewDeveloperTools();
 		builder.Logging.AddDebug();

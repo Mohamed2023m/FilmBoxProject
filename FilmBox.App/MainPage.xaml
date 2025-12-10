@@ -6,7 +6,8 @@
 
     <BlazorWebView x:Name="blazorWebView" HostPage="wwwroot/index.html">
         <BlazorWebView.RootComponents>
-            <RootComponent Selector="#app" ComponentType="{x:Type pages:MediaPage}" />
+            <RootComponent Selector="#app" ComponentType="{x:Type pages:App}" />
+
         </BlazorWebView.RootComponents>
     </BlazorWebView>
 

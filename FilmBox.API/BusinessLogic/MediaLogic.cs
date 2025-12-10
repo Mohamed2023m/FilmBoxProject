@@ -59,6 +59,7 @@ namespace FilmBox.API.BusinessLogic
 
                 var dto = new MediaDto
                 {
+                    Id = media.MediaId,
 
                     Title = media.Title,
 
@@ -87,6 +88,7 @@ namespace FilmBox.API.BusinessLogic
 
                 var dto = new MediaDto
                 {
+                    Id = media.MediaId,
 
                     Title = media.Title,
 

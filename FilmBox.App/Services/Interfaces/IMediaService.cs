@@ -13,5 +13,8 @@ namespace FilmBox.App.Services.Interfaces
 
         public  Task<IEnumerable<MediaDto>> GetAllFilms();
 
+
+        public Task<MediaDto> GetMediaById(int id);
+
     }
 }

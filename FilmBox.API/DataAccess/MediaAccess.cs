@@ -13,7 +13,7 @@ namespace FilmBox.API.DataAccess
     FROM Media WHERE MediaId = @MediaId;
 ";
 
-
+    
 
         private static readonly string fetchMediaAllFilms = @" 
     SELECT MediaId, Title, ImageUrl 
@@ -25,7 +25,7 @@ namespace FilmBox.API.DataAccess
     FROM Media WHERE MediaType = 'Series';
 ";
 
-
+    
 
  
 
@@ -44,7 +44,6 @@ namespace FilmBox.API.DataAccess
         {
             return await TryQueryAsync<object, Media>(fetchMediaAllFilms, new { });
         }
-
 
 
 

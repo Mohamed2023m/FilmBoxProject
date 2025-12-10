@@ -16,12 +16,12 @@ namespace FilmBox.API.Controllers
             _mediaLogic = mediaLogic;
         }
 
-        [HttpGet("Get-Media")]
+        [HttpGet("Get-Media/{id}")]
         [ProducesResponseType(typeof(MediaDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetMedia([FromBody] int id)
+        public async Task<IActionResult> GetMedia(int id)
         {
             try
             {
