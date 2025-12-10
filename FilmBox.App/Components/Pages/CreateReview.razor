@@ -1,46 +1,39 @@
 ﻿@page "/review/create"
 @using FilmBox.App.ViewModel
-@using FilmBox.App.Services
 @inject ReviewViewModel Vm
-@inject StubMediaService StubMedia
 
 <h3>Create Review</h3>
 
-<!-- Media ID -->
 <div>
     <label>MediaId:</label>
     <input type="number" @bind="Vm.MediaId" />
     <button @onclick="LoadStub">Load</button>
 </div>
 
-<!-- VIS STUB MEDIE -->
-@if (LoadedMedia != null)
+@if (Vm.LoadedMedia != null)
 {
-    <img src="@LoadedMedia.ImageUrl"
-         style="width:150px;height:auto;border-radius:6px;" />
-    <p><strong>@LoadedMedia.Title</strong></p>
-    <p>@LoadedMedia.Genre</p>
-    <p>@LoadedMedia.PublishDate?.Year</p>
-    <p>@LoadedMedia.Description</p>
+    <img src="@Vm.LoadedMedia.ImageUrl" style="width:150px;border-radius:5px;" />
+
+    <h4>@Vm.LoadedMedia.Title</h4>
+    <p>@Vm.LoadedMedia.Genre</p>
+    <p>@Vm.LoadedMedia.PublishDate?.Year</p>
+    <p>@Vm.LoadedMedia.Description</p>
 }
 else
 {
     <p>Indtast MediaId og tryk Load.</p>
 }
 
-<!-- Rating -->
 <div>
     <label>Rating:</label>
     <select @bind="Vm.Rating">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
+        @for (int i = 1; i <= 5; i++)
+        {
+            <option value="@i">@i</option>
+        }
     </select>
 </div>
 
-<!-- Description -->
 <div>
     <label>Comment:</label><br />
     <textarea rows="5" cols="40" @bind="Vm.Description"></textarea>
@@ -48,47 +41,19 @@ else
 
 <button @onclick="Submit">Submit</button>
 
-@if (!string.IsNullOrEmpty(Message))
+@if (!string.IsNullOrEmpty(Vm.Message))
 {
-    <p>@Message</p>
+    <p>@Vm.Message</p>
 }
 
 @code {
-    private MediaModel? LoadedMedia;
-    private string? Message;
-
     void LoadStub()
     {
-        LoadedMedia = StubMedia.GetStubMedia(Vm.MediaId);
-        Message = LoadedMedia == null
-            ? "Ingen stub fundet"
-            : null;
+        Vm.LoadStubMedia();
     }
 
-    private async Task Submit()
+    async Task Submit()
     {
-        Message = null;
-
-        if (Vm.MediaId <= 0)
-        {
-            Message = "Ugyldigt MediaId!";
-            return;
-        }
-
-        if (Vm.Rating < 1 || Vm.Rating > 5)
-        {
-            Message = "Vælg rating 1-5!";
-            return;
-        }
-
-        try
-        {
-            var id = await Vm.CreateReviewAsync();
-            Message = $"Review oprettet med ID: {id}";
-        }
-        catch (Exception ex)
-        {
-            Message = "Fejl: " + ex.Message;
-        }
+        await Vm.SubmitReviewAsync();
     }
 }

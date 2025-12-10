@@ -78,9 +78,14 @@ h1:focus {
     user-select: none;
 }
 
-.star.on {
-    color: gold;
+.star {
+    color: #ccc;
+    user-select: none;
 }
+
+    .star.on {
+        color: gold;
+    }
 
 
 @supports (-webkit-touch-callout: none) {
