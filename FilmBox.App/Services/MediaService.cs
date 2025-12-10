@@ -12,19 +12,21 @@ namespace FilmBox.App.Services
     public class MediaService : IMediaService
     {
         IHttpClientFactory _httpClientFactory;
+        
+        private readonly HttpClient _http;
 
-        public MediaService(IHttpClientFactory httpClientFactory)
+        public MediaService(HttpClient http)
         {
-            _httpClientFactory = httpClientFactory;
+            _http = http;
         }
 
         public async Task<IEnumerable<MediaDto>> GetAllSeries()
         {
-            var httpClient = _httpClientFactory.CreateClient();
+            //var httpClient = _httpClientFactory.CreateClient();
 
-            var url = "http://localhost:5002/api/media/All-Series";
+            var url = $"api/media/All-Series";
 
-            var response = await httpClient.GetAsync(url);
+            var response = await _http.GetAsync(url);
 
 
 
@@ -43,10 +45,10 @@ namespace FilmBox.App.Services
 
         public async Task<MediaDto> GetMediaById(int id)
         {
-            var httpClient = _httpClientFactory.CreateClient();
-            var url = $"http://localhost:5002/api/media/Get-Media/{id}"; // pass ID to API
+            // var httpClient = _httpClientFactory.CreateClient();
+            var url = $"api/media/Get-Media/{id}";
 
-            var response = await httpClient.GetAsync(url);
+            var response = await _http.GetAsync(url);
 
             if (response.IsSuccessStatusCode)
             {
@@ -61,11 +63,11 @@ namespace FilmBox.App.Services
 
         public async Task<IEnumerable<MediaDto>> GetAllFilms()
         {
-            var httpClient = _httpClientFactory.CreateClient();
+            // var httpClient = _httpClientFactory.CreateClient();
 
-            var url = "http://localhost:5002/api/media/All-Films";
+            var url = $"api/media/All-Films";
 
-            var response = await httpClient.GetAsync(url);
+            var response = await _http.GetAsync(url);
 
 
 

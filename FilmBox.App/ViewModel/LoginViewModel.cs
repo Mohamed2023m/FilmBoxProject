@@ -46,7 +46,7 @@ namespace FilmBox.App.ViewModels
         { await SecureStorage.Default.SetAsync("jwt", result.Token);
             LoginMessage = "Login successful!";
 
-            _nav.NavigateTo("/review/create", true); }
+            _nav.NavigateTo("/media", true); }
         else
         { LoginMessage = "Invalid email or password."; } 
     

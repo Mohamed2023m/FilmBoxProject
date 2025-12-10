@@ -31,6 +31,8 @@ namespace FilmBox.API.BusinessLogic
 
             return new MediaDto
             {
+            Id = Media.MediaId,
+
             Title = Media.Title,
 
             Description = Media.Description,
