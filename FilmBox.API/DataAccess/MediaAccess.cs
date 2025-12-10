@@ -13,8 +13,21 @@ namespace FilmBox.API.DataAccess
     FROM Media WHERE MediaId = @MediaId;
 ";
 
-        private static readonly string fetchAllMedia = @" SELECT * FROM Media
-       ;";
+    
+
+        private static readonly string fetchMediaAllFilms = @" 
+    SELECT MediaId, Title, ImageUrl 
+    FROM Media WHERE MediaType = 'Movie';
+";
+
+        private static readonly string fetchMediaAllSeries = @" 
+    SELECT MediaId, Title, ImageUrl 
+    FROM Media WHERE MediaType = 'Series';
+";
+
+    
+
+ 
 
         public MediaAccess(IConfiguration config) : base(config.GetConnectionString("DefaultConnection")
         ?? throw new ArgumentNullException("DefaultConnection is missing"))
@@ -27,10 +40,19 @@ namespace FilmBox.API.DataAccess
 
         }
 
-        public async Task<IEnumerable<Media>> FetchAllMediaAsync()
+        public async Task<IEnumerable<Media>> FetchAllFilmsAsync()
         {
-            return await TryQueryAsync<object, Media>(fetchAllMedia, new { });
+            return await TryQueryAsync<object, Media>(fetchMediaAllFilms, new { });
         }
+
+
+
+        public async Task<IEnumerable<Media>> FetchAllSeriesAsync()
+        {
+            return await TryQueryAsync<object, Media>(fetchMediaAllSeries, new { });
+        }
+
+
 
 
     }

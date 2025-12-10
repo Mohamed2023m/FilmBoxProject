@@ -1,0 +1,49 @@
+﻿@page "/"
+@page "/media"
+@using FilmBox.App.ViewModel
+
+@inject MediaViewModel VM
+@inject NavigationManager Nav
+
+<h3>Media List</h3>
+
+<!-- Button to manually reload the media list -->
+<button @onclick="Load">Load Media</button>
+
+<ul>
+    <!-- Films -->
+    @foreach (var f in VM.Films)
+    {
+        <li>
+            <a @onclick='() => Nav.NavigateTo($"/details/{f.Id}")'
+               style="cursor:pointer; text-decoration:underline; color:blue;">
+                @f.Title
+            </a>
+        </li>
+    }
+
+    <!-- Series -->
+    @foreach (var s in VM.Series)
+    {
+        <li>
+            <a @onclick='() => Nav.NavigateTo($"/details/{s.Id}")'
+               style="cursor:pointer; text-decoration:underline; color:blue;">
+                @s.Title
+            </a>
+        </li>
+    }
+</ul>
+
+@code {
+    // Load media when page initializes
+    protected override async Task OnInitializedAsync()
+    {
+        await VM.LoadAsync();
+    }
+
+    // Called when the button is clicked
+    private async Task Load()
+    {
+        await VM.LoadAsync();
+    }
+}

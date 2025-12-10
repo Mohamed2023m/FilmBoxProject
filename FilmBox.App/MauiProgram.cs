@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using FilmBox.App.Services;
-
+using FilmBox.App.Services.Interfaces;
 using FilmBox.App.ViewModel;
 using FilmBox.App.ViewModels;
 
@@ -23,6 +23,7 @@ public static class MauiProgram
 
         builder.Services.AddHttpClient();
 
+
        // builder.Services.AddHttpClient<UserApiService>(client =>
        // {
       //      client.BaseAddress = new Uri("https://localhost:7070"); 
@@ -38,7 +39,10 @@ public static class MauiProgram
         
         builder.Services.AddScoped<LoginViewModel>();
         builder.Services.AddScoped<ReviewViewModel>();
+        builder.Services.AddTransient<MediaViewModel>();
+        builder.Services.AddTransient<MediaDetailViewModel>();
 
+        builder.Services.AddTransient<IMediaService, MediaService>();
         builder.Services.AddScoped<UserApiService>();
         builder.Services.AddScoped<ReviewApiService>();
         builder.Services.AddScoped<StubMediaService>(); 

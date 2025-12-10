@@ -16,12 +16,12 @@ namespace FilmBox.API.Controllers
             _mediaLogic = mediaLogic;
         }
 
-        [HttpPost("get-show")]
+        [HttpGet("Get-Media/{id}")]
         [ProducesResponseType(typeof(MediaDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetMedia([FromBody] int id)
+        public async Task<IActionResult> GetMedia(int id)
         {
             try
             {
@@ -49,14 +49,14 @@ namespace FilmBox.API.Controllers
         }
 
 
-        [HttpGet("all-media")]
+        [HttpGet("All-Films")]
         [ProducesResponseType(typeof(IEnumerable<MediaDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetAllMedia()
+        public async Task<IActionResult> GetAllFilms()
         {
             try
             {
-                var mediaList = await _mediaLogic.GetAllMedia();
+                var mediaList = await _mediaLogic.GetAllFilms();
 
                 // Optional: return 404 if no media exists
                 if (mediaList == null || !mediaList.Any())
@@ -74,5 +74,30 @@ namespace FilmBox.API.Controllers
             }
         }
 
+
+        [HttpGet("All-Series")]
+        [ProducesResponseType(typeof(IEnumerable<MediaDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetAllSeries()
+        {
+            try
+            {
+                var mediaList = await _mediaLogic.GetAllSeries();
+
+                // Optional: return 404 if no media exists
+                if (mediaList == null || !mediaList.Any())
+                {
+                    return NotFound("No media found");
+                }
+
+                return Ok(mediaList);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                // _logger.LogError(ex, "Error retrieving all media");
+                return StatusCode(500, "An error occurred while processing your request");
+            }
+        }
     }
 }
