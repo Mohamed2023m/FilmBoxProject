@@ -41,7 +41,13 @@ namespace FilmBox.API.BusinessLogic
 
             ImageUrl = Media.ImageUrl,
 
+            MediaType = Media.MediaType,
+
             PublishDate = Media.PublishDate,
+            
+            AverageRating = Media.AverageRating,
+                
+            ReviewCount = Media.ReviewCount
             };
 
 
@@ -66,6 +72,8 @@ namespace FilmBox.API.BusinessLogic
                     Title = media.Title,
 
                     ImageUrl = media.ImageUrl,
+
+                    MediaType = media.MediaType,
                 };
 
                 mediaDtoList.Add(dto);
@@ -95,6 +103,8 @@ namespace FilmBox.API.BusinessLogic
                     Title = media.Title,
 
                     ImageUrl = media.ImageUrl,
+
+                    MediaType = media.MediaType,
                 };
 
                 mediaDtoList.Add(dto);

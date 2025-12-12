@@ -16,7 +16,12 @@ namespace FilmBox.Api.Models
 
         [MaxLength(512)]
         public string? ImageUrl { get; set; }
+
+        public string? MediaType { get; set; }
         public DateTime? PublishDate { get; set; }
+
+        public double? AverageRating { get; set; }
+        public int ReviewCount { get; set; }
 
         // Navigation 
         public Movie? Movie { get; set; }

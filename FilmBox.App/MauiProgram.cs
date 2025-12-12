@@ -45,7 +45,7 @@ public static class MauiProgram
         builder.Services.AddTransient<IMediaService, MediaService>();
         builder.Services.AddScoped<UserApiService>();
         builder.Services.AddScoped<ReviewApiService>();
-        builder.Services.AddScoped<StubMediaService>(); 
+        //builder.Services.AddScoped<StubMediaService>(); 
         return builder.Build();
 	}
 }

@@ -1,13 +1,17 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager Nav
+
 
 <div class="page">
-     <div class="sidebar">
+@*      <div class="sidebar">
         <NavMenu />
-    </div> 
+    </div>  *@
 
     <main>
         <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+@*             <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+ *@            <button class="logout-btn" @onclick="Logout">Logout</button>
+
         </div>
 
         <article class="content px-4">
@@ -15,3 +19,11 @@
         </article>
     </main>
 </div>
+
+@code {
+    private void Logout()
+    {
+        SecureStorage.Default.Remove("jwt");
+        Nav.NavigateTo("/login", true);
+    }
+}

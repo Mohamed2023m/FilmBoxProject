@@ -46,7 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTOs\GetDTOs\MediaDto.cs" />
+    <Compile Include="DTOs\GetDTOs\MovieDto.cs" />
     <Compile Include="DTOs\GetDTOs\ReviewDto.cs" />
+    <Compile Include="DTOs\GetDTOs\SeriesDto.cs" />
     <Compile Include="DTOs\LoginDTO%27s\AuthResult.cs" />
     <Compile Include="DTOs\LoginDTO%27s\LoginRequest.cs" />
     <Compile Include="DTOs\PostDTOs\ReviewCreateDto.cs" />

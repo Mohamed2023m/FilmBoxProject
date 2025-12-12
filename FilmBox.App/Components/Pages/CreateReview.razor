@@ -1,59 +1,86 @@
-﻿@page "/review/create"
+﻿@page "/review/create/{Id:int}"
 @using FilmBox.App.ViewModel
+@using FilmBox.API.DTOs.GetDTOs
 @inject ReviewViewModel Vm
+@inject NavigationManager Nav
 
 <h3>Create Review</h3>
 
-<div>
-    <label>MediaId:</label>
-    <input type="number" @bind="Vm.MediaId" />
-    <button @onclick="LoadStub">Load</button>
-</div>
-
-@if (Vm.LoadedMedia != null)
+@if (Vm.LoadedMedia == null)
 {
-    <img src="@Vm.LoadedMedia.ImageUrl" style="width:150px;border-radius:5px;" />
-
-    <h4>@Vm.LoadedMedia.Title</h4>
-    <p>@Vm.LoadedMedia.Genre</p>
-    <p>@Vm.LoadedMedia.PublishDate?.Year</p>
-    <p>@Vm.LoadedMedia.Description</p>
+    <p>@Vm.Message</p>
+    <button @onclick="GoBack">⬅ Back</button>
 }
 else
 {
-    <p>Indtast MediaId og tryk Load.</p>
-}
+    <div class="media-header">
+        <img src="@Vm.LoadedMedia.ImageUrl" class="media-poster" />
+        <div>
+            <h4>@Vm.LoadedMedia.Title</h4>
+            <p>@Vm.LoadedMedia.Genre</p>
+            <p>@Vm.LoadedMedia.PublishDate</p>
+            <p>@Vm.LoadedMedia.Description</p>
+            <p><b>Type:</b> @Vm.LoadedMedia.MediaType</p>
+        </div>
+    </div>
 
-<div>
-    <label>Rating:</label>
-    <select @bind="Vm.Rating">
-        @for (int i = 1; i <= 5; i++)
-        {
-            <option value="@i">@i</option>
-        }
-    </select>
-</div>
+    <hr />
 
-<div>
-    <label>Comment:</label><br />
-    <textarea rows="5" cols="40" @bind="Vm.Description"></textarea>
-</div>
+    <div class="rating-row">
+        <label>Rating:</label>
+        <span @onclick="@(() => SetRating(1))" class="star @(Vm.Rating >= 1 ? "filled" : "")">★</span>
+        <span @onclick="@(() => SetRating(2))" class="star @(Vm.Rating >= 2 ? "filled" : "")">★</span>
+        <span @onclick="@(() => SetRating(3))" class="star @(Vm.Rating >= 3 ? "filled" : "")">★</span>
+        <span @onclick="@(() => SetRating(4))" class="star @(Vm.Rating >= 4 ? "filled" : "")">★</span>
+        <span @onclick="@(() => SetRating(5))" class="star @(Vm.Rating >= 5 ? "filled" : "")">★</span>
+    </div>
 
-<button @onclick="Submit">Submit</button>
+    <p>Valgt rating: @Vm.Rating</p>
 
-@if (!string.IsNullOrEmpty(Vm.Message))
-{
-    <p>@Vm.Message</p>
-}
+    <div>
+        <label>Comment:</label><br />
+        <textarea rows="5" cols="60" @bind="Vm.Description"></textarea>
+    </div>
 
-@code {
-    void LoadStub()
+    <div class="form-actions">
+        <button @onclick="Submit">Submit</button>
+        <button @onclick="GoBack">Cancel</button>
+    </div>
+
+    if (!string.IsNullOrEmpty(Vm.Message))
     {
-        Vm.LoadStubMedia();
+        <p>@Vm.Message</p>
+    }
+}
+@code {
+    [Parameter] public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Vm.LoadMediaAsync(Id);
     }
 
-    async Task Submit()
+        private void SetRating(int value)
     {
-        await Vm.SubmitReviewAsync();
+        Vm.Rating = value;
+    }
+
+    private async Task Submit()
+    {
+        Vm.ClearMessage();
+        var ok = await Vm.SubmitReviewAsync();
+        StateHasChanged();            
+
+        if (ok)
+        {
+            await Task.Delay(2000); 
+            Vm.ClearForm();
+            Nav.NavigateTo("/media");
+        }
+    }
+
+    private void GoBack()
+    {
+        Nav.NavigateTo($"/details/{Id}");
     }
 }

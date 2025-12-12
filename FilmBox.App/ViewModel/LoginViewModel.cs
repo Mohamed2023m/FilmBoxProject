@@ -14,7 +14,8 @@ namespace FilmBox.App.ViewModels
 {
     public partial class LoginViewModel : ObservableObject
     {
-        private readonly UserApiService _api; private readonly NavigationManager _nav;
+        private readonly UserApiService _api; 
+        private readonly NavigationManager _nav;
 
 
 

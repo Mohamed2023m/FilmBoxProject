@@ -14,7 +14,12 @@ namespace FilmBox.API.DTOs.GetDTOs
 
         public string ImageUrl { get; set; }
 
-        public DateTime? PublishDate { get; set; }    
+        public DateTime? PublishDate { get; set; }
 
+        public string MediaType { get; set; }
+
+
+        public double? AverageRating { get; set; }
+        public int ReviewCount { get; set; }
     }
 }
