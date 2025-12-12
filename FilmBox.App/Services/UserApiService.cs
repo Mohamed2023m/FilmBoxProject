@@ -21,11 +21,12 @@ namespace FilmBox.App.Services
         {
             var response = await _http.PostAsJsonAsync("api/User/login", new
             {
-                email,
-                password
+                Email = email,
+                Password = password
             });
 
-            response.EnsureSuccessStatusCode();
+            if (!response.IsSuccessStatusCode)
+                return null;
 
             return await response.Content.ReadFromJsonAsync<AuthResult>();
         }
