@@ -47,11 +47,12 @@ else
         <button @onclick="GoBack">Cancel</button>
     </div>
 
-    if (!string.IsNullOrEmpty(Vm.Message))
+    @if (!string.IsNullOrEmpty(Vm.Message))
     {
         <p>@Vm.Message</p>
     }
 }
+
 @code {
     [Parameter] public int Id { get; set; }
 
@@ -60,7 +61,7 @@ else
         await Vm.LoadMediaAsync(Id);
     }
 
-        private void SetRating(int value)
+    private void SetRating(int value)
     {
         Vm.Rating = value;
     }
@@ -69,11 +70,11 @@ else
     {
         Vm.ClearMessage();
         var ok = await Vm.SubmitReviewAsync();
-        StateHasChanged();            
+        StateHasChanged();
 
         if (ok)
         {
-            await Task.Delay(2000); 
+            await Task.Delay(2000);
             Vm.ClearForm();
             Nav.NavigateTo("/media");
         }
