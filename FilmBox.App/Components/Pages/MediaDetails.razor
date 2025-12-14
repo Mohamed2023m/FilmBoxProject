@@ -14,7 +14,11 @@ else
         <li><b>Title:</b> @VM.Dto.Title</li>
         <li><b>Description:</b> @VM.Dto.Description</li>
         <li><b>Genre:</b> @VM.Dto.Genre</li>
-        <li><b>Image URL:</b> @VM.Dto.ImageUrl</li>
+        <li>
+            <img src="@VM.Dto.ImageUrl"
+                 alt="Media image"
+                 style="max-width:300px;" />
+        </li>
         <li><b>Publish Date:</b> @VM.Dto.PublishDate</li>
     </ul>
 
@@ -27,7 +31,7 @@ else
 
     private void GoBack()
     {
-        Nav.NavigateTo("/media");
+        Nav.NavigateTo("/");
     }
 
     [Parameter]

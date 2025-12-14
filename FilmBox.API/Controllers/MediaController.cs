@@ -10,11 +10,17 @@ namespace FilmBox.API.Controllers
     public class MediaController : ControllerBase // ← Missing inheritance
     {
         private readonly IMediaLogic _mediaLogic;
+        private readonly IWebHostEnvironment _env;
 
-        public MediaController(IMediaLogic mediaLogic)
+        public MediaController(IMediaLogic mediaLogic, IWebHostEnvironment env)
         {
             _mediaLogic = mediaLogic;
+
+            _env = env;
+
         }
+
+
 
         [HttpGet("Get-Media/{id}")]
         [ProducesResponseType(typeof(MediaDto), StatusCodes.Status200OK)]
@@ -47,6 +53,11 @@ namespace FilmBox.API.Controllers
             }
 
         }
+
+     
+
+
+
 
 
         [HttpGet("All-Films")]
@@ -83,6 +94,33 @@ namespace FilmBox.API.Controllers
             try
             {
                 var mediaList = await _mediaLogic.GetAllSeries();
+
+                // Optional: return 404 if no media exists
+                if (mediaList == null || !mediaList.Any())
+                {
+                    return NotFound("No media found");
+                }
+
+                return Ok(mediaList);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                // _logger.LogError(ex, "Error retrieving all media");
+                return StatusCode(500, "An error occurred while processing your request");
+            }
+        }
+
+
+
+        [HttpGet("Recently-Added")]
+        [ProducesResponseType(typeof(IEnumerable<MediaDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetRecentlyAddedMedia()
+        {
+            try
+            {
+                var mediaList = await _mediaLogic.GetRecentlyAddedMedia();
 
                 // Optional: return 404 if no media exists
                 if (mediaList == null || !mediaList.Any())

@@ -9,17 +9,55 @@ namespace FilmBox.API.BusinessLogic
     {
         private IMediaAccess _mediaAccess;
 
-        public MediaLogic(IMediaAccess mediaAccess)
+        private readonly ILogger<MediaLogic> _logger;
+
+        public MediaLogic(IMediaAccess mediaAccess, ILogger<MediaLogic> logger)
         {
             _mediaAccess = mediaAccess;
+            _logger = logger;
         }
-
 
         public async Task<MediaDto> GetMediaById(int Id)
         {
 
 
             var Media = await _mediaAccess.FetchMediaAsync(Id);
+
+
+            if (Media == null)
+            {
+                _logger.LogWarning("Media ID {Id} not found", Id);
+                throw new InvalidOperationException("Media not found");
+            }
+
+            var imageUrl = $"http://localhost:5002/Files/{Media.ImageUrl}";
+            _logger.LogInformation("Media ID {Id} loaded with ImageUrl: {ImageUrl}", Id, imageUrl);
+
+
+
+            return new MediaDto
+            {
+            Title = Media.Title,
+
+            Description = Media.Description,
+
+            Genre = Media.Genre,
+
+                ImageUrl = $"http://localhost:5002/Files/{Media.ImageUrl}",
+
+                PublishDate = Media.PublishDate,
+            };
+
+
+        }
+
+
+
+        public async Task<MediaDto> GetMediaImageById(int Id)
+        {
+
+
+            var Media = await _mediaAccess.FetchMediaImageById(Id);
 
 
             if (Media == null)
@@ -31,15 +69,10 @@ namespace FilmBox.API.BusinessLogic
 
             return new MediaDto
             {
-            Title = Media.Title,
 
-            Description = Media.Description,
 
-            Genre = Media.Genre,
+                ImageUrl = $"http://localhost:5002/Files/{Media.ImageUrl}"
 
-            ImageUrl = Media.ImageUrl,
-
-            PublishDate = Media.PublishDate,
             };
 
 
@@ -57,14 +90,19 @@ namespace FilmBox.API.BusinessLogic
 
             foreach (var media in mediaList) {
 
+                _logger.LogInformation("Mapping MediaId: {Id}, Title: {Title}, ImageUrl from DB: {DbUrl}",
+    media.MediaId, media.Title, media.ImageUrl);
+
                 var dto = new MediaDto
                 {
                     Id = media.MediaId,
 
                     Title = media.Title,
 
-                    ImageUrl = media.ImageUrl,
+                    ImageUrl = $"http://localhost:5002/Files/{media.ImageUrl}",
                 };
+
+
 
                 mediaDtoList.Add(dto);
 
@@ -86,13 +124,48 @@ namespace FilmBox.API.BusinessLogic
             foreach (var media in mediaList)
             {
 
+                _logger.LogInformation("Mapping MediaId: {Id}, Title: {Title}, ImageUrl from DB: {DbUrl}",
+    media.MediaId, media.Title, media.ImageUrl);
+
                 var dto = new MediaDto
                 {
                     Id = media.MediaId,
 
                     Title = media.Title,
 
-                    ImageUrl = media.ImageUrl,
+                    ImageUrl = $"http://localhost:5002/Files/{media.ImageUrl}",
+                };
+
+                mediaDtoList.Add(dto);
+
+            }
+
+            return mediaDtoList;
+
+        }
+
+
+        public async Task<IEnumerable<MediaDto>> GetRecentlyAddedMedia()
+        {
+
+
+            var mediaList = await _mediaAccess.FetchRecentlyAddedMedia();
+
+
+            var mediaDtoList = new List<MediaDto>();
+
+            foreach (var media in mediaList)
+            {
+
+                _logger.LogInformation("Mapping MediaId: {Id}, Title: {Title}, ImageUrl from DB: {DbUrl}",
+    media.MediaId, media.Title, media.ImageUrl);
+                var dto = new MediaDto
+                {
+                    Id = media.MediaId,
+
+                    Title = media.Title,
+
+                    ImageUrl = $"http://localhost:5002/Files/{media.ImageUrl}",
                 };
 
                 mediaDtoList.Add(dto);
