@@ -28,13 +28,20 @@ namespace FilmBox.API.DataAccess
     FROM Media WHERE MediaType = 'Series';
 ";
 
-    
+    private static readonly string fetchMediaByRecentlyAdded = @"
+    SELECT TOP 10 *
+FROM Media
+ORDER BY MediaId DESC;
+";
 
- 
+   private static readonly string FetchImageById = @"SELECT ImageUrl FROM Media WHERE MediaId = @MediaId;";
+
+
 
         public MediaAccess(IConfiguration config) : base(config.GetConnectionString("DefaultConnection")
         ?? throw new ArgumentNullException("DefaultConnection is missing"))
         { }
+
 
 
         public async Task<Media?> FetchMediaAsync(int id)
@@ -49,14 +56,25 @@ namespace FilmBox.API.DataAccess
         }
 
 
-
         public async Task<IEnumerable<Media>> FetchAllSeriesAsync()
         {
             return await TryQueryAsync<object, Media>(fetchMediaAllSeries, new { });
         }
 
 
+        public async Task<IEnumerable<Media>> FetchRecentlyAddedMedia()
+        {
+            return await TryQueryAsync<object, Media>(fetchMediaByRecentlyAdded, new { });
+        }
+
+        public async Task<Media?> FetchMediaImageById(int id)
+        {
+            return await TryQuerySingleOrDefaultAsync<object, Media>(FetchImageById, new { MediaId = id });
+        }
 
 
+
+
+        
     }
 }

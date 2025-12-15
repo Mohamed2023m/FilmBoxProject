@@ -16,7 +16,10 @@ namespace FilmBox.App.ViewModel
 
         public ObservableCollection<MediaDto> Films { get; private set; }
 
-        
+        public ObservableCollection<MediaDto> RecentlyAdded { get; private set; }
+
+
+
 
         public MediaViewModel(IMediaService mediaService)
         {
@@ -26,6 +29,8 @@ namespace FilmBox.App.ViewModel
             Series = new ObservableCollection<MediaDto>();
 
             Films = new ObservableCollection<MediaDto>();
+
+            RecentlyAdded = new ObservableCollection<MediaDto>();
         }
 
 
@@ -35,8 +40,20 @@ namespace FilmBox.App.ViewModel
 
             var filmsData = await _mediaService.GetAllFilms();
 
+            var RecentlyAddedData = await _mediaService.GetRecentlyAddedMedia();
+
+            RecentlyAdded.Clear();
             Series.Clear();
             Films.Clear();
+
+            foreach (var item in RecentlyAddedData)
+            {
+
+                RecentlyAdded.Add(item);
+
+            }
+
+
             foreach (var item in seriesData)
             {
 
