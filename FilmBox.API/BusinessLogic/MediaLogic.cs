@@ -37,15 +37,17 @@ namespace FilmBox.API.BusinessLogic
 
             return new MediaDto
             {
+            Id = Media.MediaId,
+
             Title = Media.Title,
 
             Description = Media.Description,
 
             Genre = Media.Genre,
 
-                ImageUrl = $"http://localhost:5002/Files/{Media.ImageUrl}",
+            ImageUrl = $"http://localhost:5002/Files/{Media.ImageUrl}",
 
-                PublishDate = Media.PublishDate,
+            PublishDate = Media.PublishDate,
             };
 
 

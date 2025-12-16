@@ -104,11 +104,11 @@ namespace FilmBox.App.Services
 
         public async Task<IEnumerable<MediaDto>> GetRecentlyAddedMedia()
         {
-            var httpClient = _httpClientFactory.CreateClient();
+            //var httpClient = _httpClientFactory.CreateClient();
 
             var url = "http://localhost:5002/api/media/Recently-Added";
 
-            var response = await httpClient.GetAsync(url);
+            var response = await _http.GetAsync(url);
 
 
 

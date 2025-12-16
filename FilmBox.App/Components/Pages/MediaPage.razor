@@ -1,6 +1,4 @@
-﻿@page "/"
-
-
+﻿@page "/media"
 @using FilmBox.App.ViewModel
 
 @inject MediaViewModel VM
@@ -8,71 +6,84 @@
 
 <h3>Media List</h3>
 
-<!-- Button to manually reload the media list -->
 <button @onclick="Load">Load Media</button>
 
-<ul>
-    <!-- Films -->
-    @foreach (var f in VM.Films)
-    {
-        <li>
-            <a @onclick='() => Nav.NavigateTo($"/details/{f.Id}")'
-               style="cursor:pointer; text-decoration:underline; color:blue;">
-                @f.Title
-        <li>
-            <img src="@f.ImageUrl"
-                 alt="Media image"
-                 style="max-width:300px;" />
-        </li>
-            </a>
-        </li>
-    }
+<!-- Films Section -->
+@if (VM.Films.Any())
+{
+    <h4>Films</h4>
+    <ul>
+        @foreach (var f in VM.Films)
+        {
+            <li style="margin-bottom: 20px;">
+                <a @onclick='() => Nav.NavigateTo($"/details/{f.Id}")'
+                   style="cursor:pointer; text-decoration:underline; color:blue;">
+                    @f.Title
+             
+                <div>
+                    <img src="@f.ImageUrl"
+                         alt="@f.Title"
+                         style="max-width:300px; display:block;" />
+                </div>
+                </a>
+            </li>
+        }
+    </ul>
+}
 
-    <!-- Series -->
-    @foreach (var s in VM.Series)
-    {
-        <li>
-            <a @onclick='() => Nav.NavigateTo($"/details/{s.Id}")'
-               style="cursor:pointer; text-decoration:underline; color:blue;">
-                @s.Title
-        <li>
-            <img src="@s.ImageUrl"
-                 alt="Media image"
-                 style="max-width:300px;" />
-        </li>
-            </a>
-        </li>
-    }
+<!-- Series Section -->
+@if (VM.Series.Any())
+{
+    <h4>Series</h4>
+    <ul>
+        @foreach (var s in VM.Series)
+        {
+            <li style="margin-bottom: 20px;">
+                <a @onclick='() => Nav.NavigateTo($"/details/{s.Id}")'
+                   style="cursor:pointer; text-decoration:underline; color:blue;">
+                    @s.Title
 
+              
+                <div>
+                    <img src="@s.ImageUrl"
+                         alt="@s.Title"
+                         style="max-width:300px; display:block;" />
+                </div>
+                </a>
+            </li>
+        }
+    </ul>
+}
 
-
-    
-         <!-- Recently Added Content -->
-    @foreach (var r in VM.RecentlyAdded)
-    {
-        <li>
-            <a @onclick='() => Nav.NavigateTo($"/details/{r.Id}")'
-               style="cursor:pointer; text-decoration:underline; color:blue;">
-                @r.Title
-                
-        <li>
-            <img src="@r.ImageUrl"
-                 alt="Media image"
-                 style="max-width:300px;" />
-        </li>
-            </a>
-        </li>
-    }
-</ul>
+<!-- Recently Added Section -->
+@if (VM.RecentlyAdded.Any())
+{
+    <h4>Recently Added</h4>
+    <ul>
+        @foreach (var r in VM.RecentlyAdded)
+        {
+            <li style="margin-bottom: 20px;">
+                <a @onclick='() => Nav.NavigateTo($"/details/{r.Id}")'
+                   style="cursor:pointer; text-decoration:underline; color:blue;">
+                    @r.Title
+              
+                <div>
+                    <img src="@r.ImageUrl"
+                         alt="@r.Title"
+                         style="max-width:300px; display:block;" />
+                </div>
+                </a>
+            </li>
+        }
+    </ul>
+}
 
 @code {
-    // Load media when page initializes
     protected override async Task OnInitializedAsync()
     {
         await VM.LoadAsync();
     }
 
-    // Called when the button is clicked
     private async Task Load()
     {
         await VM.LoadAsync();
