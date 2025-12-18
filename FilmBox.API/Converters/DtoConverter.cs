@@ -2,6 +2,8 @@
 using FilmBox.Api.DTOs.GetDTOs;
 using FilmBox.Api.DTOs.PostDTOs;
 using FilmBox.Api.Models;
+using FilmBox.API.DTOs.GetDTOs;
+using FilmBox.Shared.DTOs.PostDTOs;
 using System.Collections.Generic;
 
 namespace WebApi.DTOs.Converters
@@ -70,5 +72,30 @@ namespace WebApi.DTOs.Converters
 
         #endregion
 
+        #region Media conversion methods
+        public static MediaDto ToDto(this Media mediaToConvert)
+        {
+            var mediaDto = new MediaDto();
+            mediaToConvert.CopyPropertiesTo(mediaDto);
+            return mediaDto;
+        }
+
+        public static Media FromCreateDto(this MediaCreateDto mediaDtoToConvert)
+        {
+            var media = new Media();
+            mediaDtoToConvert.CopyPropertiesTo(media);
+            return media;
+        }
+
+        public static IEnumerable<MediaDto> ToDtos(this IEnumerable<Media> mediaToConvert)
+        {
+            foreach (var media in mediaToConvert)
+            {
+                yield return media.ToDto();
+            }
+        }
+
+
+        #endregion
     }
 }

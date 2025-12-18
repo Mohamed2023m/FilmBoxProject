@@ -9,9 +9,9 @@ namespace FilmBox.Api.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly UserLogic _logic;
+        private readonly IUserLogic _logic;
 
-        public UserController(UserLogic logic)
+        public UserController(IUserLogic logic)
         {
             _logic = logic;
         }

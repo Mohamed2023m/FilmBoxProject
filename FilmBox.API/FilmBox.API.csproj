@@ -22,6 +22,7 @@
 		<Folder Include="Files\" />
 		<Folder Include="Uploads\MovieImages\" />
 		<Folder Include="Uploads\SeriesImages\" />
+		<Folder Include="wwwroot\Files\" />
 	</ItemGroup>
 
 	<ItemGroup>

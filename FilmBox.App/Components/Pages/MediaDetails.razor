@@ -24,11 +24,11 @@ else
             <li><b>Rating:</b> Ingen reviews endnu</li>
         }
         <li><b>Type:</b> @VM.Dto.MediaType</li>
-        <li><b>Publish Date:</b> @VM.Dto.PublishDate</li>
+        <li><b>Publish Date:</b> @VM.Dto.PublishDate?.ToString("dd-MM-yyyy")</li>
     </ul>
 
     <li>
-        <img src="@VM.Dto.ImageUrl" style="width:200px;border-radius:6px;" />
+        <img src="@($"https://localhost:7070{VM.Dto.ImageUrl}")" style="width:200px;border-radius:6px;" />
     </li>
 
     <button @onclick="GoBack">⬅ Back</button>
