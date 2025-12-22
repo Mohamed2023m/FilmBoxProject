@@ -1,0 +1,84 @@
+﻿@page "/adminmedia/create"
+@using Filmbox.Admin.Models
+@using Filmbox.Admin.Services
+@inject AdminMediaService AdminMediaService
+
+<h3 class="mb-4">Create Media</h3>
+
+<EditForm Model="@model" OnValidSubmit="Create">
+    <DataAnnotationsValidator />
+
+    <div class="row g-3">
+
+        <div class="col-md-6">
+            <label class="form-label">Title</label>
+            <InputText class="form-control" @bind-Value="model.Title" />
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Genre</label>
+            <InputText class="form-control" @bind-Value="model.Genre" />
+        </div>
+
+        <div class="col-12">
+            <label class="form-label">Description</label>
+            <InputTextArea class="form-control" rows="4"
+                           @bind-Value="model.Description" />
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label">Media Type</label>
+            <InputSelect class="form-select" @bind-Value="model.MediaType">
+                <option value="Movie">Movie</option>
+                <option value="Series">Series</option>
+            </InputSelect>
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label">Publish Date</label>
+            <InputDate class="form-control"
+                       @bind-Value="model.PublishDate" />
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label">Image</label>
+            <InputFile class="form-control" OnChange="OnImageSelected" />
+        </div>
+
+        <div class="col-12 mt-3">
+            <button type="submit" class="btn btn-primary">
+                Create Media
+            </button>
+        </div>
+
+    </div>
+</EditForm>
+
+@if (resultMessage != null)
+{
+    <p>@resultMessage</p>
+}
+
+@code {
+    private MediaCreateFormModel model = new();
+    private string? resultMessage;
+
+    private void OnImageSelected(InputFileChangeEventArgs e)
+    {
+        model.ImageUrl = e.File;
+    }
+
+    private async Task Create()
+    {
+        try
+        {
+            await AdminMediaService.CreateMediaAsync(model);
+            resultMessage = "Mediet blev oprettet";
+            model = new();
+        }
+        catch (Exception ex)
+        {
+            resultMessage = ex.Message;
+        }
+    }
+}
