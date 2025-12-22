@@ -45,6 +45,12 @@ namespace FilmBox.API.BusinessLogic
 
             Genre = Media.Genre,
 
+            AverageRating = Media.AverageRating,
+
+            MediaType = Media.MediaType,
+
+            ReviewCount = Media.ReviewCount,
+
             ImageUrl = $"http://localhost:5002/Files/{Media.ImageUrl}",
 
             PublishDate = Media.PublishDate,
