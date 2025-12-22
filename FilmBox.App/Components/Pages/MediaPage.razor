@@ -19,7 +19,7 @@
             <li class="media-card">
                 <button class="media-button" @onclick='() => Nav.NavigateTo($"/details/{f.Id}")'>
                         <div class="poster">
-                            <img src="@f.ImageUrl"
+                            <img src="@($"https://localhost:7070{f.ImageUrl}")
                                  alt="@f.Title" />
                         </div>
                         <div class="title">@f.Title</div>
@@ -44,7 +44,7 @@
                 <button class="media-button" @onclick='() => Nav.NavigateTo($"/details/{s.Id}")'>
 
                         <div class="poster">
-                            <img src="@s.ImageUrl"
+                            <img src="@($"https://localhost:7070{s.ImageUrl}")
                                  alt="@s.Title" />
                         </div>
                         <div class="title">@s.Title</div>
@@ -70,7 +70,7 @@
                 <button class="media-button" @onclick='() => Nav.NavigateTo($"/details/{r.Id}")'>
 
                         <div class="poster">
-                            <img src="@r.ImageUrl"
+                            <img src="@($"https://localhost:7070{r.ImageUrl}")
                                  alt="@r.Title"/>
                         </div>
 
