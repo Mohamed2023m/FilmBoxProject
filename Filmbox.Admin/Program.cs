@@ -40,6 +40,8 @@ public class Program
         // Error handling
         if (!app.Environment.IsDevelopment())
         {
+            app.UseExceptionHandler("/Error");
+            app.UseHsts();
         }
 
         app.UseHttpsRedirection();
