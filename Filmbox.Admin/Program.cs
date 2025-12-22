@@ -1,5 +1,6 @@
 ﻿using Filmbox.Admin.Auth;
 using Filmbox.Admin.Components;
+
 using Microsoft.AspNetCore.Components.Authorization;
 using Filmbox.Admin.Services;
 
@@ -21,6 +22,9 @@ public class Program
               client.BaseAddress = new Uri("https://localhost:7070"); 
           });
 
+        builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7070/") });
+
+        builder.Services.AddScoped<AdminMediaService>();
         builder.Services.AddScoped<JwtTokenStore>();
         builder.Services.AddScoped<AdminAuthenticationStateProvider>();
 
@@ -36,11 +40,8 @@ public class Program
         // Error handling
         if (!app.Environment.IsDevelopment())
         {
-            app.UseExceptionHandler("/Error");
-            app.UseHsts();
         }
 
-       
         app.UseHttpsRedirection();
         app.UseStaticFiles();
         app.UseAntiforgery();
@@ -48,7 +49,6 @@ public class Program
         app.MapRazorComponents<App>()
             .AddInteractiveServerRenderMode();
 
-    
         app.Run();
     }
 }
