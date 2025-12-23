@@ -106,7 +106,7 @@ namespace FilmBox.App.Services
         {
             //var httpClient = _httpClientFactory.CreateClient();
 
-            var url = "http://localhost:5002/api/media/Recently-Added";
+            var url = "api/media/Recently-Added";
 
             var response = await _http.GetAsync(url);
 
