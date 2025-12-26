@@ -30,7 +30,7 @@ namespace FilmBox.API.BusinessLogic
                 throw new InvalidOperationException("Media not found");
             }
 
-            var imageUrl = $"https://localhost:7070{Media.ImageUrl}";
+            var imageUrl = $"https://localhost:7070/Files/{Media.ImageUrl}";
             _logger.LogInformation("Media ID {Id} loaded with ImageUrl: {ImageUrl}", Id, imageUrl);
 
 
@@ -51,7 +51,7 @@ namespace FilmBox.API.BusinessLogic
 
             ReviewCount = Media.ReviewCount,
 
-            ImageUrl = $"https://localhost:7070{Media.ImageUrl}",
+            ImageUrl = $"https://localhost:7070/Files/{Media.ImageUrl}",
 
             PublishDate = Media.PublishDate,
             };
@@ -79,7 +79,7 @@ namespace FilmBox.API.BusinessLogic
             {
 
 
-                ImageUrl = $"https://localhost:7070{Media.ImageUrl}"
+                ImageUrl = $"https://localhost:7070/Files/{Media.ImageUrl}"
 
             };
 
@@ -107,7 +107,7 @@ namespace FilmBox.API.BusinessLogic
 
                     Title = media.Title,
 
-                    ImageUrl = $"https://localhost:7070{media.ImageUrl}",
+                    ImageUrl = $"https://localhost:7070/Files/{media.ImageUrl}",
                 };
 
 
@@ -141,7 +141,7 @@ namespace FilmBox.API.BusinessLogic
 
                     Title = media.Title,
 
-                    ImageUrl = $"https://localhost:7070{media.ImageUrl}",
+                    ImageUrl = $"https://localhost:7070/Files/{media.ImageUrl}",
                 };
 
                 mediaDtoList.Add(dto);
@@ -173,7 +173,7 @@ namespace FilmBox.API.BusinessLogic
 
                     Title = media.Title,
 
-                    ImageUrl = $"https://localhost:7070{media.ImageUrl}",
+                    ImageUrl = $"https://localhost:7070/Files/{media.ImageUrl}",
                 };
 
                 mediaDtoList.Add(dto);

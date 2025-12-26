@@ -15,7 +15,7 @@ namespace FilmBox.App.Services.Interfaces
 
         public  Task<IEnumerable<MediaDto>> GetRecentlyAddedMedia();
         public Task<MediaDto> GetMediaById(int id);
-        public  Task<MediaDto> GetMediaImageById(int id);
+
 
     }
 }
