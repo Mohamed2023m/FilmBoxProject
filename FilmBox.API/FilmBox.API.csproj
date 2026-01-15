@@ -17,15 +17,13 @@
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<Folder Include="Models\" />
-		<Folder Include="Uploads\MovieImages\" />
-		<Folder Include="Uploads\SeriesImages\" />
-		<Folder Include="wwwroot\Files\" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\FilmBox.Shared\FilmBox.Shared.csproj" />
-	</ItemGroup>
+  <ItemGroup>
+    <Folder Include="DTOs\GetDTOs\" />
+    <Folder Include="DTOs\PostDTOs\" />
+    <Folder Include="Models\" />
+    <Folder Include="Files\" />
+    <Folder Include="Uploads\MovieImages\" />
+    <Folder Include="Uploads\SeriesImages\" />
+  </ItemGroup>
 
 </Project>
