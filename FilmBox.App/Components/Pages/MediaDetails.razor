@@ -1,0 +1,66 @@
+﻿@page "/details/{Id:int}"
+@using FilmBox.App.ViewModel
+@inject MediaDetailViewModel VM
+
+<h3>Media Details</h3>
+
+@if (VM.Dto == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <ul>
+        <li><b>Title:</b> @VM.Dto.Title</li>
+        <li><b>Description:</b> @VM.Dto.Description</li>
+        <li><b>Genre:</b> @VM.Dto.Genre</li>
+@*         <li><b>Image URL:</b> @VM.Dto.ImageUrl</li>*@    
+        @if (VM.Dto.AverageRating.HasValue && VM.Dto.ReviewCount > 0)
+        {
+            <li><b>Rating:</b> @String.Format("{0:0.0}", VM.Dto.AverageRating) / 5 (@VM.Dto.ReviewCount reviews)</li>
+        }
+        else
+        {
+            <li><b>Rating:</b> Ingen reviews endnu</li>
+        }
+        <li><b>Type:</b> @VM.Dto.MediaType</li>
+        <li><b>Publish Date:</b> @VM.Dto.PublishDate?.ToString("dd-MM-yyyy")</li>
+    </ul>
+
+    <li>
+        <img src="@VM.Dto.ImageUrl" style="width:200px;border-radius:6px;" />
+    </li>
+
+    <button @onclick="GoBack">⬅ Back</button>
+
+    <button @onclick="CreateReview">Create Review</button>
+
+}
+
+@code {
+
+       [Inject] NavigationManager Nav { get; set; }
+
+    private void GoBack()
+    {
+        Nav.NavigateTo("/media");
+    }
+
+    private void CreateReview()
+    {
+        Nav.NavigateTo($"/review/create/{Id}");
+    }
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await VM.LoadAsync(Id);
+    }
+
+    private async Task Load()
+    {
+        await VM.LoadAsync(Id);
+    }
+}

@@ -1,0 +1,97 @@
+﻿@page "/media"
+@using FilmBox.App.ViewModel
+
+@inject MediaViewModel VM
+@inject NavigationManager Nav
+
+
+
+
+
+<!-- Films Section -->
+@if (VM.Films.Any())
+{
+    <section class="media-section">
+    <h4>Films</h4>
+        <ul class="media-row">
+        @foreach (var f in VM.Films)
+        {
+            <li class="media-card">
+                <button class="media-button" @onclick='() => Nav.NavigateTo($"/details/{f.Id}")'>
+                        <div class="poster">
+                            <img src="@f.ImageUrl"
+                                 alt="@f.Title" />
+                        </div>
+                        <div class="title">@f.Title</div>
+
+
+                    </button>
+            </li>
+        }
+    </ul>
+    </section>
+}
+
+<!-- Series Section -->
+@if (VM.Series.Any())
+{
+      <section class="media-section">
+    <h4>Series</h4>
+    <ul class="media-row"> 
+        @foreach (var s in VM.Series)
+        {
+                <li class="media-card">
+                <button class="media-button" @onclick='() => Nav.NavigateTo($"/details/{s.Id}")'>
+
+                        <div class="poster">
+                            <img src="@s.ImageUrl"
+                                 alt="@s.Title" />
+                        </div>
+                        <div class="title">@s.Title</div>
+
+              
+              
+                </button>
+            </li>
+        }
+    </ul>
+    </section>
+}
+
+<!-- Recently Added Section -->
+@if (VM.RecentlyAdded.Any())
+{
+      <section class="media-section">
+    <h4>Recently Added</h4>
+        <ul class="media-row">
+        @foreach (var r in VM.RecentlyAdded)
+        {
+                <li class="media-card">
+                <button class="media-button" @onclick='() => Nav.NavigateTo($"/details/{r.Id}")'>
+
+                        <div class="poster">
+                            <img src="@r.ImageUrl"
+                                 alt="@r.Title"/>
+                        </div>
+
+                        <div class="title">@r.Title</div>
+
+
+                    </button>
+            </li>
+        }
+    </ul>
+    </section>
+}
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await VM.LoadAsync();
+    }
+
+    private async Task Load()
+    {
+        await VM.LoadAsync();
+    }
+}

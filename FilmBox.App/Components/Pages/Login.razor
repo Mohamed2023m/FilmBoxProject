@@ -1,0 +1,17 @@
+﻿@page "/"
+@page "/login"
+@using FilmBox.App.ViewModels
+@inject LoginViewModel VM
+
+<h3>Login</h3>
+
+<input @bind="VM.Email" placeholder="Email" />
+<input @bind="VM.Password" placeholder="Password" type="password" />
+
+<button @onclick="VM.LoginAsync">Login</button>
+
+<p>@VM.LoginMessage</p>
+
+
+
+

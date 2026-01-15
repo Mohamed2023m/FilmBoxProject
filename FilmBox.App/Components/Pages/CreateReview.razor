@@ -1,0 +1,87 @@
+﻿@page "/review/create/{Id:int}"
+@using FilmBox.App.ViewModel
+@using FilmBox.API.DTOs.GetDTOs
+@inject ReviewViewModel Vm
+@inject NavigationManager Nav
+
+<h3>Create Review</h3>
+
+@if (Vm.LoadedMedia == null)
+{
+    <p>@Vm.Message</p>
+    <button @onclick="GoBack">⬅ Back</button>
+}
+else
+{
+    <div class="media-header">
+        <img src="@Vm.LoadedMedia.ImageUrl"class ="media-poster" />
+        <div>
+            <h4>@Vm.LoadedMedia.Title</h4>
+            <p>@Vm.LoadedMedia.Genre</p>
+            <p>@Vm.LoadedMedia.PublishDate?.ToString("dd-MM-yyyy")</p>
+            <p>@Vm.LoadedMedia.Description</p>
+            <p>@Vm.LoadedMedia.MediaType</p>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="rating-row">
+        <label>Rating:</label>
+        <span @onclick="@(() => SetRating(1))" class="star @(Vm.Rating >= 1 ? "filled" : "")">★</span>
+        <span @onclick="@(() => SetRating(2))" class="star @(Vm.Rating >= 2 ? "filled" : "")">★</span>
+        <span @onclick="@(() => SetRating(3))" class="star @(Vm.Rating >= 3 ? "filled" : "")">★</span>
+        <span @onclick="@(() => SetRating(4))" class="star @(Vm.Rating >= 4 ? "filled" : "")">★</span>
+        <span @onclick="@(() => SetRating(5))" class="star @(Vm.Rating >= 5 ? "filled" : "")">★</span>
+    </div>
+
+    <p>Valgt rating: @Vm.Rating</p>
+
+    <div>
+        <label>Comment:</label><br />
+        <textarea rows="5" cols="60" @bind="Vm.Description"></textarea>
+    </div>
+
+    <div class="form-actions">
+        <button @onclick="Submit">Submit</button>
+        <button @onclick="GoBack">Cancel</button>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Vm.Message))
+    {
+        <p>@Vm.Message</p>
+    }
+}
+
+@code {
+    [Parameter] public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Vm.LoadMediaAsync(Id);
+    }
+
+    private void SetRating(int value)
+    {
+        Vm.Rating = value;
+    }
+
+    private async Task Submit()
+    {
+        Vm.ClearMessage();
+        var ok = await Vm.SubmitReviewAsync();
+        StateHasChanged();
+
+        if (ok)
+        {
+            await Task.Delay(2000);
+            Vm.ClearForm();
+            Nav.NavigateTo("/media");
+        }
+    }
+
+    private void GoBack()
+    {
+        Nav.NavigateTo($"/details/{Id}");
+    }
+}

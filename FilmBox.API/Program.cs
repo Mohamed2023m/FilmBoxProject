@@ -1,15 +1,103 @@
+using System.Data;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Cryptography;
+using System.Text;
+using FilmBox.Api.Authentication;
+using FilmBox.Api.BusinessLogic;
+using FilmBox.Api.DataAccess;
+using FilmBox.API.BusinessLogic;
+using FilmBox.API.BusinessLogic.Interfaces;
+using FilmBox.API.DataAccess;
+using FilmBox.API.DataAccess.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
+// Add controllers
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "Indsæt kun dit JWT-token her",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement {{
+        new OpenApiSecurityScheme {
+            Reference = new OpenApiReference {
+                Type = ReferenceType.SecurityScheme,
+                Id = "Bearer"
+            }
+        },
+        new string[] {}
+    }});
+});
+
+// Read connection string
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+// DATA ACCESS
+builder.Services.AddSingleton<IUserDAO>(new UserDAO(connectionString));
+builder.Services.AddSingleton<IReviewDAO>(new ReviewDAO(connectionString));
+builder.Services.AddSingleton<IAdminMediaDAO>(new AdminMediaDAO(connectionString));
+
+
+// Incoming DAOs / Repositories
+builder.Services.AddScoped<IMediaAccess, MediaAccess>();
+
+// BUSINESS LOGIC
+builder.Services.AddScoped<IUserLogic, UserLogic>(); 
+builder.Services.AddScoped<IReviewLogic, ReviewLogic>();
+builder.Services.AddScoped<IMediaLogic, MediaLogic>();
+builder.Services.AddScoped<IAdminMediaLogic, AdminMediaLogic>();
+
+// JWT Token Generator
+builder.Services.AddSingleton<JwtTokenGenerator>();
+
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+// Add JWT Authentication
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        var privateKeyPath = builder.Configuration["Jwt:PrivateKeyPath"];
+        var privateKeyXml = File.ReadAllText(privateKeyPath);
+
+        var rsa = RSA.Create();
+        rsa.FromXmlString(privateKeyXml);
+
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new RsaSecurityKey(rsa)
+        };
+    });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireAdmin", policy =>
+        policy.RequireRole("Admin"));
+});
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Swagger
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -17,7 +105,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 
+// app.UseStaticFiles();
+
+// ADD AUTHENTICATION BEFORE AUTHORIZATION
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

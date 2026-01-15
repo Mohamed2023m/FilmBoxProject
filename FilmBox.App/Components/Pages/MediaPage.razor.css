@@ -1,0 +1,64 @@
+﻿/* Entire page background */
+body {
+    background-color: grey; /* Light gray background like the mockup */
+    margin: 0; /* Removes default browser margin */
+    font-family: system-ui, -apple-system, sans-serif; /* Clean app-style font */
+}
+
+/* Section wrapper (Films, Series, Recently Added) */
+.media-section {
+    padding: 12px 16px; /* Space around each section */
+}
+
+    /* Section titles like "Most recent films" */
+    .media-section h4 {
+        margin: 0 0 8px 0; /* Space below title only */
+        font-size: 18px; /* Slightly larger than normal text */
+        font-weight: 700; /* Bold like app headings */
+        color: #111; /* Almost black for contrast */
+    }
+
+/* Horizontal scrolling row */
+.media-row {
+    display: flex; /* Places cards in a row */
+    flex-direction: row; /* Explicit left-to-right direction */
+    gap: 12px; /* Space between posters */
+    overflow-x: auto; /* Enables horizontal scrolling */
+    overflow-y: hidden; /* Prevents vertical scrollbars */
+    padding: 4px 0; /* Small vertical breathing room */
+    list-style: none; /* Removes bullet points */
+    margin: 0; /* Removes default <ul> margin */
+    scroll-behavior: smooth; /* Smooth scrolling when swiping */
+}
+
+    /* Hide scrollbar for clean mobile look */
+    .media-row::-webkit-scrollbar {
+        display: none; /* Scroll still works, bar is hidden */
+    }
+
+/* Individual card wrapper */
+.media-card {
+    flex: 0 0 auto; /* Prevents cards from stretching or shrinking */
+}
+
+/* Button reset so cards don't look like buttons */
+.media-button {
+    border: none; /* Removes default border */
+    background: none; /* Removes default background */
+    padding: 0; /* Removes default padding */
+    cursor: pointer; /* Shows it's clickable */
+}
+
+/* Poster image styling */
+.poster img {
+    width: 110px; /* Narrow poster width like the mockup */
+    height: 165px; /* Shorter height to match screenshot */
+    object-fit: cover; /* Fills space without distortion */
+    border-radius: 4px; /* Slightly rounded corners */
+    display: block; /* Removes inline spacing issues */
+}
+
+/* Hide titles completely (mockup is image-only shelves) */
+.title {
+    display: none; /* Titles are not shown in the list view */
+}
