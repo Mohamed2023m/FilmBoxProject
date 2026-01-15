@@ -1,0 +1,82 @@
+﻿@page "/login"
+@layout Layout.AuthLayout
+@inject  AdminUserApiService AuthService
+@inject NavigationManager Nav
+@inject AdminAuthenticationStateProvider AuthStateProvider
+@using Filmbox.Admin.Auth
+@using FilmBox.Shared.DTOs
+@using FilmBox.Api.DTOs
+
+<input @bind="email"
+       placeholder="Email"
+       class="login-input" />
+
+<div class="password-field">
+    <input type="@PasswordType"
+           @bind="password"
+           placeholder="Password"
+           class="login-input" />
+
+    <button type="button"
+            class="eye-btn"
+            @onclick="TogglePassword">
+        👁
+    </button>
+</div>
+
+
+@if (!string.IsNullOrEmpty(error))
+{
+    <p class="error">@error</p>
+}
+
+<button @onclick="HandleLogin">
+    Login
+</button>
+
+@code {
+    private string email = string.Empty;
+    private string password = string.Empty;
+    private string? error;
+    private bool showPassword;
+
+    private string PasswordType =>
+        showPassword ? "text" : "password";
+
+    private void TogglePassword()
+    {
+        showPassword = !showPassword;
+    }
+
+    private async Task HandleLogin()
+    {
+        error = null;
+
+        AuthResult? result;
+
+        try
+        {
+            result = await AuthService.LoginAsync(email, password);
+        }
+        catch
+        {
+            error = "Unable to contact server";
+            return;
+        }
+
+        if (result is null)
+        {
+            error = "Invalid email or password";
+            return;
+        }
+
+        if (!result.Success)
+        {
+            error = result.Message ?? "Invalid email or password";
+            return;
+        }
+
+        AuthStateProvider.SignIn(result.Token);
+        Nav.NavigateTo("adminmedia/create", replace: true);
+    }
+}

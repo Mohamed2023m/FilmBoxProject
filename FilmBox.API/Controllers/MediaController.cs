@@ -45,7 +45,7 @@ namespace FilmBox.API.Controllers
 
                 return Ok(media);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Log the exception here
                 // _logger.LogError(ex, "Error retrieving media with ID {MediaId}", id);
@@ -77,7 +77,7 @@ namespace FilmBox.API.Controllers
 
                 return Ok(mediaList);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Log the exception
                 // _logger.LogError(ex, "Error retrieving all media");
@@ -103,7 +103,7 @@ namespace FilmBox.API.Controllers
 
                 return Ok(mediaList);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Log the exception
                 // _logger.LogError(ex, "Error retrieving all media");

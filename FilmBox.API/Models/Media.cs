@@ -23,10 +23,7 @@ namespace FilmBox.Api.Models
         public double? AverageRating { get; set; }
         public int ReviewCount { get; set; }
 
-        // Navigation 
-        public Movie? Movie { get; set; }
-        public Series? Series { get; set; }
-        public ICollection<Review> Reviews { get; set; } = new List<Review>();
+      
 
     }
 }

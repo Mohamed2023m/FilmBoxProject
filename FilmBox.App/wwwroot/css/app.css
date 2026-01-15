@@ -17,6 +17,8 @@ a, .btn-link {
     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
+
+
 .content {
     padding-top: 1.1rem;
 }
@@ -136,5 +138,94 @@ h1:focus {
     .flex-column, .navbar-brand {
         padding-left: env(safe-area-inset-left);
     }
+}
 
+
+/* ===== FilmBox Global App Styling ===== */
+
+/* Apply background color to entire application */
+html, body {
+    background-color: #d9d9d9; /* Light gray background matching the mockup */
+    min-height: 100%; /* Ensures background fills full screen height */
+}
+
+/* Main app content wrapper (Blazor renders inside this) */
+.content {
+    padding-bottom: 60px; /* Leaves space so content is not hidden behind bottom nav */
+}
+
+/* Section wrapper used on media pages */
+.media-section {
+    padding: 12px 16px; /* Adds spacing around each media section */
+}
+
+    /* Section titles like "Most recent films" */
+    .media-section h4 {
+        margin: 0 0 8px 0; /* Removes top margin, adds space below title */
+        font-size: 18px; /* Makes section titles readable but compact */
+        font-weight: 700; /* Bold text like app headings */
+        color: #111; /* Dark text for contrast on light background */
+    }
+
+/* Horizontal scrolling rows */
+.media-row {
+    display: flex; /* Places posters in a horizontal row */
+    flex-direction: row; /* Explicit left-to-right direction */
+    gap: 12px; /* Space between posters */
+    overflow-x: auto; /* Enables horizontal scrolling */
+    overflow-y: hidden; /* Prevents vertical scrollbars */
+    padding: 4px 0; /* Small vertical spacing */
+    list-style: none; /* Removes bullet points */
+    margin: 0; /* Removes default list margin */
+    scroll-behavior: smooth; /* Smooth scrolling on swipe */
+}
+
+    /* Hide scrollbar for clean mobile UI */
+    .media-row::-webkit-scrollbar {
+        display: none; /* Scroll still works, scrollbar is hidden */
+    }
+
+/* Individual media card */
+.media-card {
+    flex: 0 0 auto; /* Prevents cards from shrinking */
+}
+
+/* Clickable poster button */
+.media-button {
+    border: none; /* Removes default button border */
+    background: none; /* Removes default button background */
+    padding: 0; /* Removes default padding */
+    cursor: pointer; /* Indicates clickable element */
+}
+
+/* Poster images */
+.poster img {
+    width: 110px; /* Poster width matching mockup */
+    height: 165px; /* Poster height matching mockup */
+    object-fit: cover; /* Ensures image fills area without stretching */
+    border-radius: 4px; /* Slight rounding like native apps */
+    display: block; /* Prevents inline spacing issues */
+}
+
+/* Hide titles in list view (mockup uses image-only shelves) */
+.title {
+    display: none; /* Titles will still exist but not be visible */
+}
+
+/* Top application header container */
+.app-header {
+    display: flex; /* Places logo in a horizontal row */
+    align-items: center; /* Vertically centers the logo */
+    height: 48px; /* Standard mobile header height (iPhone-friendly) */
+    padding: 0 16px; /* Horizontal padding for safe touch spacing */
+    background-color: #d9d9d9; /* Matches app background */
+}
+
+/* FilmBox logo image */
+.app-logo {
+    height: 169px; /* Ideal logo height for iPhone 13 */
+    width: auto; /* Keeps original aspect ratio */
+    display: block; /* Prevents inline spacing glitches */
+    margin: 10px;
+    margin-top: 56px;
 }

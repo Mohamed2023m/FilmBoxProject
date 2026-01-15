@@ -49,18 +49,17 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 // DATA ACCESS
 builder.Services.AddSingleton<IUserDAO>(new UserDAO(connectionString));
 builder.Services.AddSingleton<IReviewDAO>(new ReviewDAO(connectionString));
+builder.Services.AddSingleton<IAdminMediaDAO>(new AdminMediaDAO(connectionString));
+
 
 // Incoming DAOs / Repositories
-
 builder.Services.AddScoped<IMediaAccess, MediaAccess>();
 
 // BUSINESS LOGIC
-builder.Services.AddScoped<UserLogic>();
+builder.Services.AddScoped<IUserLogic, UserLogic>(); 
 builder.Services.AddScoped<IReviewLogic, ReviewLogic>();
-
-// Incoming Business Logic / Services
-
 builder.Services.AddScoped<IMediaLogic, MediaLogic>();
+builder.Services.AddScoped<IAdminMediaLogic, AdminMediaLogic>();
 
 // JWT Token Generator
 builder.Services.AddSingleton<JwtTokenGenerator>();
@@ -107,6 +106,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+// app.UseStaticFiles();
 
 // ADD AUTHENTICATION BEFORE AUTHORIZATION
 app.UseAuthentication();

@@ -14,11 +14,11 @@
 else
 {
     <div class="media-header">
-        <img src="@Vm.LoadedMedia.ImageUrl" class="media-poster" />
+        <img src="@Vm.LoadedMedia.ImageUrl"class ="media-poster" />
         <div>
             <h4>@Vm.LoadedMedia.Title</h4>
             <p>@Vm.LoadedMedia.Genre</p>
-            <p>@Vm.LoadedMedia.PublishDate</p>
+            <p>@Vm.LoadedMedia.PublishDate?.ToString("dd-MM-yyyy")</p>
             <p>@Vm.LoadedMedia.Description</p>
             <p>@Vm.LoadedMedia.MediaType</p>
         </div>
